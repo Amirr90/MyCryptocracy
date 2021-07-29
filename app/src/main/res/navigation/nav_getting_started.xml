@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_getting_started"
+    app:startDestination="@id/gettingStartedScreen1">
+
+    <fragment
+        android:id="@+id/gettingStartedScreen1"
+        android:name="com.e.cryptocracy.views.fragments.GettingStartedScreen1"
+        android:label="fragment_getting_started_screen1"
+        tools:layout="@layout/fragment_getting_started_screen1" />
+</navigation>
