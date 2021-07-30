@@ -2,4 +2,7 @@
     <string name="app_name">Cryptocracy</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_label_1">Coin Market</string>
+    <string name="text_label_2">Trending</string>
+    <string name="text_label_3">Favourite</string>
 </resources>

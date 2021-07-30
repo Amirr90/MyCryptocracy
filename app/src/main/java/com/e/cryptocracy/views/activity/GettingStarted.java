@@ -1,5 +1,6 @@
 package com.e.cryptocracy.views.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +23,12 @@ public class GettingStarted extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        initView();
+
+        binding.btnGetStarted.setOnClickListener(v -> {
+            startActivity(new Intent(GettingStarted.this, AppHomeScreen.class));
+            finish();
+        });
     }
 
-    private void initView() {
-    }
+
 }

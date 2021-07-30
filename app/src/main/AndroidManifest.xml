@@ -3,6 +3,7 @@
     package="com.e.cryptocracy">
 
     <application
+        android:name=".views.utility.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,9 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCryptocracy">
         <activity
+            android:name=".views.activity.AppHomeScreen" />
+        <activity
             android:name=".views.activity.GettingStarted"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".views.activity.SplashScreen">
+        <activity
+            android:name=".views.activity.SplashScreen"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

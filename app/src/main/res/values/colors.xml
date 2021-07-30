@@ -8,4 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_background">#333E78</color>
+    <color name="shrine_pink_900">#0D47A1</color>
+    <color name="shrine_pink_100">#E3F2FD</color>
+    <color name="green_dark">#81C784</color>
+    <color name="black_light">#1E1D1D</color>
 </resources>
