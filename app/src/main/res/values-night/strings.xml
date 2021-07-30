@@ -2,4 +2,8 @@
 <resources>
     <string name="text_label_2">text 2</string>
     <string name="text_label_3">Favourite</string>
+    <string name="name">Name</string>
+    <string name="_24h">24H</string>
+    <string name="all">All</string>
+    <string name="market_cap">Market Cap</string>
 </resources>

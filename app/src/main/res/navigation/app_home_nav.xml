@@ -9,7 +9,11 @@
         android:id="@+id/coinListFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.CoinListFragment"
         android:label="fragment_coin_list"
-        tools:layout="@layout/fragment_coin_list" />
+        tools:layout="@layout/fragment_coin_list" >
+        <action
+            android:id="@+id/action_coinListFragment_to_filterListFragment"
+            app:destination="@id/filterListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/trendingCoinFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.TrendingCoinFragment"
@@ -20,4 +24,9 @@
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
+    <dialog
+        android:id="@+id/filterListFragment"
+        android:name="com.e.cryptocracy.FilterListFragment"
+        android:label="fragment_filter_list"
+        tools:layout="@layout/fragment_filter_list" />
 </navigation>
