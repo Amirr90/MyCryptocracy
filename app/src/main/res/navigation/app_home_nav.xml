@@ -13,6 +13,13 @@
         <action
             android:id="@+id/action_coinListFragment_to_filterListFragment"
             app:destination="@id/filterListFragment" />
+        <action
+            android:id="@+id/action_coinListFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/trendingCoinFragment"
@@ -29,4 +36,9 @@
         android:name="com.e.cryptocracy.FilterListFragment"
         android:label="fragment_filter_list"
         tools:layout="@layout/fragment_filter_list" />
+    <fragment
+        android:id="@+id/coinDetailFragment"
+        android:name="com.e.cryptocracy.CoinDetailFragment"
+        android:label="fragment_coin_detail"
+        tools:layout="@layout/fragment_coin_detail" />
 </navigation>

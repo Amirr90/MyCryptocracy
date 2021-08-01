@@ -4,4 +4,11 @@
     <color name="green_dark">#81C784</color>
     <color name="black_light">#171515</color>
     <color name="light_blue">#E3F2FD</color>
+    <color name="yellow_800">#F9A825</color>
+    <color name="yellow_200">#FFF59D</color>
+    <color name="orange_200">#FFAB91</color>
+    <color name="orange_800">#EF6C00</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="orange_400">#FFA726</color>
+    <color name="orange_300">#FFB74D</color>
 </resources>

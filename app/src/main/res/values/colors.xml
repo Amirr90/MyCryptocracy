@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_500">#CC333E78</color>
+    <color name="purple_700">#333E78</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -13,4 +13,29 @@
     <color name="green_dark">#81C784</color>
     <color name="black_light">#1E1D1D</color>
     <color name="light_blue">#E3F2FD</color>
+    <color name="yellow_800">#F9A825</color>
+    <color name="yellow_200">#FFF59D</color>
+    <color name="orange_200">#FFAB91</color>
+    <color name="orange_800">#EF6C00</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="orange_400">#FFA726</color>
+    <color name="orange_300">#FFB74D</color>
+
+
+    <array name="ingr_color_arr">
+        <item>#EF5350</item>
+        <item>#9CCC65</item>
+        <item>#AB47BC</item>
+        <item>#7E57C2</item>
+        <item>#FFA726</item>
+        <item>#42A5F5</item>
+        <item>#26C6DA</item>
+        <item>#26A69A</item>
+        <item>#66BB6A</item>
+        <item>#EC407A</item>
+        <item>#D4E157</item>
+        <item>#FFCA28</item>
+        <item>#5C6BC0</item>
+        <item>#FF7043</item>
+    </array>
 </resources>

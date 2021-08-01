@@ -6,4 +6,9 @@
     <string name="_24h">24H</string>
     <string name="all">All</string>
     <string name="market_cap">Market Cap</string>
+    <string name="price">Price</string>
+    <string name="tag">Tag</string>
+    <string name="type">Type</string>
+    <string name="quick_calculator">Quick Convertor</string>
+    <string name="coin">Coin</string>
 </resources>

@@ -72,7 +72,12 @@ public class CoinListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull DemoVH holder, int position) {
-
+            holder.coinViewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment);
+                }
+            });
         }
 
         @Override

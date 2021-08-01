@@ -130,34 +130,32 @@
                 android:text="@string/name"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView12"
+                app:layout_constraintEnd_toStartOf="@+id/textView16"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView12"
-
+                android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/search_bg"
                 android:backgroundTint="@color/purple_200"
                 android:clickable="true"
                 android:fontFamily="@font/rubik"
-                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string._24h))}"
+                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.price))}"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
-                android:text="@string/_24h"
+                android:text="@string/price"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/textView10"
-                app:layout_constraintEnd_toStartOf="@+id/textView13"
+                app:layout_constraintEnd_toStartOf="@+id/textView12"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/textView10"
-                app:layout_constraintVertical_bias="0.355" />
+                app:layout_constraintTop_toTopOf="@+id/textView10" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textView12"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,12 +168,31 @@
                 android:paddingVertical="5dp"
                 android:text="@string/all"
                 android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/textView16"
+                app:layout_constraintEnd_toStartOf="@+id/textView13"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView16"
+                app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+            <TextView
+                android:id="@+id/textView13"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bg"
+                android:backgroundTint="@color/purple_200"
+                android:clickable="true"
+                android:fontFamily="@font/rubik"
+                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.type))}"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                android:text="@string/type"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/textView12"
                 app:layout_constraintEnd_toStartOf="@+id/textView11"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toTopOf="@+id/textView12"
-                app:layout_constraintVertical_bias="0.355" />
+                app:layout_constraintTop_toTopOf="@+id/textView12" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -185,17 +202,15 @@
                 android:backgroundTint="@color/purple_200"
                 android:clickable="true"
                 android:fontFamily="@font/rubik"
-                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.market_cap))}"
+                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.tag))}"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
-                android:text="@string/market_cap"
+                android:text="@string/tag"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView13"
-                app:layout_constraintTop_toTopOf="@+id/textView13"
-                app:layout_constraintVertical_bias="0.355" />
+                app:layout_constraintStart_toEndOf="@+id/textView13" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView

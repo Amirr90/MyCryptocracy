@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/bottom_sheet_behavior"
     android:background="@drawable/round_from_top"
     android:orientation="vertical"
+    style="@style/Widget.Demo.BottomSheet"
     tools:context=".FilterListFragment">
 
 
@@ -13,6 +15,7 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik_medium"
         android:padding="10dp"
         android:text="Categories Filter"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />

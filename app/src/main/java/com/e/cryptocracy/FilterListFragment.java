@@ -7,14 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.cryptocracy.databinding.FilterViewBinding;
 import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.views.utility.AppConstant;
+import com.e.cryptocracy.views.utility.AppUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -26,10 +29,13 @@ public class FilterListFragment extends BottomSheetDialogFragment {
 
     FragmentFilterListBinding binding;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFilterListBinding.inflate(getLayoutInflater());
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.ThemeOverlay_Demo_BottomSheetDialog);
+
         return binding.getRoot();
     }
 
@@ -40,23 +46,15 @@ public class FilterListFragment extends BottomSheetDialogFragment {
         if (null == getArguments())
             dismiss();
 
-        binding.recFilter.addItemDecoration(new
+      /*  binding.recFilter.addItemDecoration(new
                 DividerItemDecoration(requireActivity(),
-                DividerItemDecoration.VERTICAL));
+                DividerItemDecoration.VERTICAL));*/
         binding.recFilter.setItemAnimator(new DefaultItemAnimator());
         binding.recFilter.setHasFixedSize(true);
-        binding.recFilter.setAdapter(new DemoAdapter(getFilterList(getArguments().getString(AppConstant.KEY_FILTER))));
+        binding.recFilter.setAdapter(new DemoAdapter(AppUtils.getFilterList(getArguments().getString(AppConstant.KEY_FILTER),binding)));
     }
 
-    private List<FilterModel> getFilterList(String type) {
 
-        List<FilterModel> filterModels = new ArrayList<>();
-        if (type.equalsIgnoreCase(requireActivity().getString(R.string.name))) {
-            filterModels.add(new FilterModel(AppConstant.ASCENDING, "asc"));
-            filterModels.add(new FilterModel(AppConstant.DESCENDING, "desc"));
-        }
-        return filterModels;
-    }
 
     private class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoVH> {
         List<FilterModel> modelList;

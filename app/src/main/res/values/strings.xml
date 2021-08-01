@@ -8,5 +8,16 @@
     <string name="name">Name</string>
     <string name="_24h">24H</string>
     <string name="all">All</string>
-    <string name="market_cap">Market Cap</string>
+    <string name="market_cap">MCap</string>
+    <string name="price">Price</string>
+    <string name="tag">Tag</string>
+    <string name="type">Type</string>
+    <string name="quick_calculator">Quick Convertor</string>
+    <string name="coin">Coin</string>
+
+    <!--    Test Ad Id-->
+    <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!--    Live Ad Id-->
+    <!--        <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-5778282166425967/2981756838</string>-->
 </resources>
