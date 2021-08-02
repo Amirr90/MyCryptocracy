@@ -48,10 +48,9 @@ public class CoinListFragment extends Fragment {
             }
         });*/
 
-       /* binding.ivSearch.setOnClickListener(v -> {
-            binding.editTextTextPersonName.setVisibility(binding.editTextTextPersonName.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-            binding.editTextTextPersonName.setAnimation(Animation.getAnimation(R.anim.fade_in));
-        });*/
+        binding.ivHomeSetting.setOnClickListener(v -> {
+            navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+        });
 
         binding.setSortClickListener(name -> {
             Bundle bundle = new Bundle();

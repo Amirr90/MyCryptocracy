@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Demo.BottomSheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/bottom_sheet_behavior"
     android:background="@drawable/round_from_top"
     android:orientation="vertical"
-    style="@style/Widget.Demo.BottomSheet"
+    app:layout_behavior="@string/bottom_sheet_behavior"
     tools:context=".FilterListFragment">
 
 
@@ -23,9 +23,30 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recFilter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
-        android:paddingBottom="100dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/filter_view" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/rubik"
+        android:padding="10dp"
+        android:text="Thought Of The Day:"
+        android:textColor="@color/black_light" />
+
+    <TextView
+        android:id="@+id/tvThought"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik_light_italic"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="15dp"
+        android:paddingBottom="40dp"
+        android:text="\' Don't ever let anyone know how big your wallet is, and don't ever let anyone know how small it is either. '"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 </LinearLayout>

@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.cryptocracy.databinding.FilterViewBinding;
@@ -20,8 +18,8 @@ import com.e.cryptocracy.views.utility.AppConstant;
 import com.e.cryptocracy.views.utility.AppUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class FilterListFragment extends BottomSheetDialogFragment {
@@ -51,10 +49,21 @@ public class FilterListFragment extends BottomSheetDialogFragment {
                 DividerItemDecoration.VERTICAL));*/
         binding.recFilter.setItemAnimator(new DefaultItemAnimator());
         binding.recFilter.setHasFixedSize(true);
-        binding.recFilter.setAdapter(new DemoAdapter(AppUtils.getFilterList(getArguments().getString(AppConstant.KEY_FILTER),binding)));
+        binding.recFilter.setAdapter(new DemoAdapter(AppUtils.getFilterList(getArguments().getString(AppConstant.KEY_FILTER), binding)));
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateThought();
+    }
+
+    private void updateThought() {
+        String[] thoughts = requireActivity().getResources().getStringArray(R.array.tips);
+        final int position = new Random().nextInt((thoughts.length - 1) + 1);
+        binding.tvThought.setText(thoughts[position]);
+    }
 
     private class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoVH> {
         List<FilterModel> modelList;

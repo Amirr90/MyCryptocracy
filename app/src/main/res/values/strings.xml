@@ -17,7 +17,37 @@
 
     <!--    Test Ad Id-->
     <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="text_label_4">Market</string>
+    <string name="text_label_5">News</string>
+    <string name="text_label_6">Tweets</string>
 
     <!--    Live Ad Id-->
     <!--        <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-5778282166425967/2981756838</string>-->
+
+    <array name="tips">
+        <item>“The perceived risk and actual risk are two different things.”
+            ― Naved Abdali
+        </item>
+        <item>“Knowing when to sell is much harder than knowing when to buy.”
+            ― Naved Abdali
+        </item>
+        <item>“Market price matters at only two points in time. When you buy and when you sell. In
+            between, it is only a distraction.”
+            ― Naved Abdali
+        </item>
+        <item>“People like to risk pennies to win dollars.”
+            ― Naved Abdali
+        </item>
+        <item>“The goal of a successful trader is to make the best trades. Money is secondary.” -
+            Alexander Elder
+        </item>
+        <item>“Do more of what works and less of what doesn’t.” - Steve Clark</item>
+        <item>“Never, ever argue with your trading system” - Michael Covel</item>
+        <item>“In this business, if you’re good, you’re right six times out of ten. You’re never
+            going to be right nine times out of ten.” - Peter Lynch
+        </item>
+        <item>“All the math you need in the stock market you get in the fourth grade.” - Peter
+            Lynch
+        </item>
+    </array>
 </resources>

@@ -45,20 +45,25 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
-    implementation 'com.airbnb.android:lottie:3.4.2'
-
+    //Navigation Components
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
 
-    def lottieVersion = "3.4.0"
+    //lottie
+    def lottieVersion = "3.4.2"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
 
+    //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+
+    //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //highChart
     implementation 'com.highsoft.highcharts:highcharts:8.1.2'
 
 }

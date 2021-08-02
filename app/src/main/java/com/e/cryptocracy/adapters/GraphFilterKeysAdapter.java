@@ -37,7 +37,7 @@ public class GraphFilterKeysAdapter extends RecyclerView.Adapter<AppViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         holder.filterViewBinding.setFilterModel(new FilterModel(keys.get(position), ""));
-        holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
+       // holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
     }
 
     @Override

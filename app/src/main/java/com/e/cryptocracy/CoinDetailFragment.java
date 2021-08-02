@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.e.cryptocracy.databinding.CoinDetailViewBinding;
 import com.e.cryptocracy.databinding.FragmentCoinDetailBinding;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.views.utility.BottomNavigationListener;
 import com.highsoft.highcharts.common.hichartsclasses.HICSSObject;
 import com.highsoft.highcharts.common.hichartsclasses.HIHover;
 import com.highsoft.highcharts.common.hichartsclasses.HILabel;
@@ -46,6 +48,7 @@ import java.util.List;
 
 public class CoinDetailFragment extends Fragment {
     FragmentCoinDetailBinding binding;
+    NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -59,6 +62,7 @@ public class CoinDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         binding.ivBack.setOnClickListener(v -> {
             Navigation.findNavController(view).navigateUp();
         });
@@ -236,13 +240,19 @@ public class CoinDetailFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
             holder.coinDetailViewBinding.setFilterModel(graphFilterKeysList.get(position));
-            holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
-            holder.coinDetailViewBinding.tvTag.getBackground().setTint(colorsDif[position]);
+          /*  holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
+            holder.coinDetailViewBinding.tvTag.getBackground().setTint(colorsDif[position]);*/
         }
 
         @Override
         public int getItemCount() {
             return null == graphFilterKeysList ? 0 : graphFilterKeysList.size();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.bottomNavCoinDetail.setOnNavigationItemSelectedListener(new BottomNavigationListener(navController));
     }
 }

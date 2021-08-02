@@ -1,6 +1,7 @@
 package com.e.cryptocracy.views.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class AppHomeScreen extends AppCompatActivity {
 
     ActivityAppHomeScreenBinding binding;
     NavController navController;
+    MenuItem itemCoinMarket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class AppHomeScreen extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController);
 
 
+        itemCoinMarket = binding.bottomNavigation.getMenu().getItem(0);
+
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (null != controller.getCurrentDestination()) {
                 if (controller.getCurrentDestination().getId() == R.id.coinListFragment
@@ -35,8 +39,11 @@ public class AppHomeScreen extends AppCompatActivity {
                         || controller.getCurrentDestination().getId() == R.id.trendingCoinFragment) {
                     binding.bottomNavigation.setVisibility(View.VISIBLE);
                 } else binding.bottomNavigation.setVisibility(View.GONE);
+
             }
         });
+
+
     }
 
 
@@ -51,4 +58,5 @@ public class AppHomeScreen extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationListener(navController));
     }
+
 }

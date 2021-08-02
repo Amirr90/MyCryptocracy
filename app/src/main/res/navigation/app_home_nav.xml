@@ -9,7 +9,7 @@
         android:id="@+id/coinListFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.CoinListFragment"
         android:label="fragment_coin_list"
-        tools:layout="@layout/fragment_coin_list" >
+        tools:layout="@layout/fragment_coin_list">
         <action
             android:id="@+id/action_coinListFragment_to_filterListFragment"
             app:destination="@id/filterListFragment" />
@@ -20,6 +20,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_coinListFragment_to_changeCurrencyFragment"
+            app:destination="@id/changeCurrencyFragment" />
     </fragment>
     <fragment
         android:id="@+id/trendingCoinFragment"
@@ -40,5 +43,19 @@
         android:id="@+id/coinDetailFragment"
         android:name="com.e.cryptocracy.CoinDetailFragment"
         android:label="fragment_coin_detail"
-        tools:layout="@layout/fragment_coin_detail" />
+        tools:layout="@layout/fragment_coin_detail" >
+        <action
+            android:id="@+id/action_coinDetailFragment_to_coinTradingPlateformFragment"
+            app:destination="@id/coinTradingPlateformFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeCurrencyFragment"
+        android:name="com.e.cryptocracy.ChangeCurrencyFragment"
+        android:label="fragment_change_currency"
+        tools:layout="@layout/fragment_change_currency" />
+    <dialog
+        android:id="@+id/coinTradingPlateformFragment"
+        android:name="com.e.cryptocracy.CoinTradingPlateformFragment"
+        android:label="fragment_coin_trading_plateform"
+        tools:layout="@layout/fragment_coin_trading_plateform" />
 </navigation>

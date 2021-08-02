@@ -11,4 +11,7 @@
     <string name="type">Type</string>
     <string name="quick_calculator">Quick Convertor</string>
     <string name="coin">Coin</string>
+    <string name="text_label_4">Market</string>
+    <string name="text_label_5">News</string>
+    <string name="text_label_6">Tweets</string>
 </resources>
