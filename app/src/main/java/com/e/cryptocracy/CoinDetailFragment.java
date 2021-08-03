@@ -3,6 +3,7 @@ package com.e.cryptocracy;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +22,7 @@ import com.e.cryptocracy.databinding.CoinDetailViewBinding;
 import com.e.cryptocracy.databinding.FragmentCoinDetailBinding;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.views.utility.AppUtils;
-import com.e.cryptocracy.views.utility.BottomNavigationListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.highsoft.highcharts.common.hichartsclasses.HICSSObject;
 import com.highsoft.highcharts.common.hichartsclasses.HIHover;
 import com.highsoft.highcharts.common.hichartsclasses.HILabel;
@@ -253,6 +254,13 @@ public class CoinDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        binding.bottomNavCoinDetail.setOnNavigationItemSelectedListener(new BottomNavigationListener(navController));
+        //binding.bottomNavCoinDetail.setOnNavigationItemSelectedListener(new BottomNavigationListener(navController));
+        binding.bottomNavCoinDetail.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                navController.navigate(item.getItemId());
+                return true;
+            }
+        });
     }
 }

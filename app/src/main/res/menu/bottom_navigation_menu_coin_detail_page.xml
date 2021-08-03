@@ -8,11 +8,13 @@
         android:title="@string/text_label_4"
         android:visible="true" />
     <item
+        android:id="@+id/coinNewsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_news"
         android:title="@string/text_label_5"
         android:visible="true" />
     <item
+        android:id="@+id/coinTwitterFragment"
         android:enabled="true"
         android:icon="@drawable/ic_twitter"
         android:title="@string/text_label_6"

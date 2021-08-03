@@ -43,10 +43,16 @@
         android:id="@+id/coinDetailFragment"
         android:name="com.e.cryptocracy.CoinDetailFragment"
         android:label="fragment_coin_detail"
-        tools:layout="@layout/fragment_coin_detail" >
+        tools:layout="@layout/fragment_coin_detail">
         <action
             android:id="@+id/action_coinDetailFragment_to_coinTradingPlateformFragment"
             app:destination="@id/coinTradingPlateformFragment" />
+        <action
+            android:id="@+id/action_coinDetailFragment_to_coinNewsFragment"
+            app:destination="@id/coinNewsFragment" />
+        <action
+            android:id="@+id/action_coinDetailFragment_to_coinTwitterFragment"
+            app:destination="@id/coinTwitterFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeCurrencyFragment"
@@ -58,4 +64,14 @@
         android:name="com.e.cryptocracy.CoinTradingPlateformFragment"
         android:label="fragment_coin_trading_plateform"
         tools:layout="@layout/fragment_coin_trading_plateform" />
+    <dialog
+        android:id="@+id/coinNewsFragment"
+        android:name="com.e.cryptocracy.CoinNewsFragment"
+        android:label="fragment_coin_news"
+        tools:layout="@layout/fragment_coin_news" />
+    <dialog
+        android:id="@+id/coinTwitterFragment"
+        android:name="com.e.cryptocracy.CoinTwitterFragment"
+        android:label="fragment_coin_twitter"
+        tools:layout="@layout/fragment_coin_twitter" />
 </navigation>
