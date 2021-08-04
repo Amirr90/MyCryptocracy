@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter;
 
 import com.e.cryptocracy.databinding.CoinTradingMarketViewBinding;
 import com.e.cryptocracy.modals.CoinTradingModel;
-import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.utility.AppUtils;
 
 public class CoinTradingListAdapter extends ListAdapter<CoinTradingModel, AppViewHolder> {
     public CoinTradingListAdapter() {

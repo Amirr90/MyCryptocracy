@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.e.cryptocracy.views.utility.App" />
+        <import type="com.e.cryptocracy.utility.App" />
 
         <import type="com.e.cryptocracy.R" />
 
@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20sp"
+
         android:paddingVertical="10dp"
         tools:context=".views.fragments.homeScreenFragments.CoinListFragment">
 
@@ -28,6 +28,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:paddingBottom="5dp"
+                android:text="$123,987,789,234"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintEnd_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -47,6 +59,8 @@
                 android:id="@+id/ivHomeSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="10dp"
@@ -60,6 +74,8 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:padding="10dp"
@@ -74,11 +90,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubik_medium"
-                android:text="Market"
+                android:text="Market Cap"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/ivHomeSetting"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -107,6 +122,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:background="@drawable/search_bg"
@@ -214,6 +230,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginHorizontal="10dp"
             android:id="@+id/recCoinHome"
             android:layout_width="match_parent"
             android:layout_height="0dp"

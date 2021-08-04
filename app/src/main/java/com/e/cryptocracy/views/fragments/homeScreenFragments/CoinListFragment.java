@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.CoinViewBinding;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
-import com.e.cryptocracy.views.utility.AppConstant;
+import com.e.cryptocracy.utility.AppConstant;
 
 
 public class CoinListFragment extends Fragment {

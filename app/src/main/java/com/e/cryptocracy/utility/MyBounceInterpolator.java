@@ -1,4 +1,4 @@
-package com.e.cryptocracy.views.utility;
+package com.e.cryptocracy.utility;
 
 public class MyBounceInterpolator  implements android.view.animation.Interpolator{
     private double mAmplitude = 1;

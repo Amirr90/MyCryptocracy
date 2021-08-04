@@ -21,7 +21,7 @@ import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
 import com.e.cryptocracy.databinding.CoinDetailViewBinding;
 import com.e.cryptocracy.databinding.FragmentCoinDetailBinding;
 import com.e.cryptocracy.modals.FilterModel;
-import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.utility.AppUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.highsoft.highcharts.common.hichartsclasses.HICSSObject;
 import com.highsoft.highcharts.common.hichartsclasses.HIHover;
@@ -241,6 +241,7 @@ public class CoinDetailFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
             holder.coinDetailViewBinding.setFilterModel(graphFilterKeysList.get(position));
+
           /*  holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
             holder.coinDetailViewBinding.tvTag.getBackground().setTint(colorsDif[position]);*/
         }

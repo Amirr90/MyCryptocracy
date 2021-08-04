@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.e.cryptocracy.adapters.CurrencyAdapter;
 import com.e.cryptocracy.databinding.FragmentChangeCurrencyBinding;
 import com.e.cryptocracy.modals.CurrencyModel;
+import com.e.cryptocracy.views.activity.AppHomeScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class ChangeCurrencyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.recCurrency.setAdapter(new CurrencyAdapter(getCurrencyList()));
+
+        binding.imageView5.setOnClickListener(AppHomeScreen.getInstance());
     }
 
     private List<CurrencyModel> getCurrencyList() {

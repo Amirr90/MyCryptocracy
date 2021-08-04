@@ -10,17 +10,24 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.e.cryptocracy.OnBackButtonClickListener;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.ActivityAppHomeScreenBinding;
-import com.e.cryptocracy.views.utility.BottomNavigationListener;
+import com.e.cryptocracy.utility.BottomNavigationListener;
 
 import java.util.Objects;
 
-public class AppHomeScreen extends AppCompatActivity {
+public class AppHomeScreen extends AppCompatActivity implements OnBackButtonClickListener {
 
     ActivityAppHomeScreenBinding binding;
     NavController navController;
     MenuItem itemCoinMarket;
+
+    public static AppHomeScreen instance;
+
+    public static AppHomeScreen getInstance() {
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,7 @@ public class AppHomeScreen extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_home);
         NavigationUI.setupActionBarWithNavController(this, navController);
 
+        instance = this;
 
         itemCoinMarket = binding.bottomNavigation.getMenu().getItem(0);
 
@@ -59,4 +67,8 @@ public class AppHomeScreen extends AppCompatActivity {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationListener(navController));
     }
 
+    @Override
+    public void onClick(View v) {
+        navController.navigateUp();
+    }
 }

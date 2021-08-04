@@ -1,4 +1,4 @@
-package com.e.cryptocracy.views.utility;
+package com.e.cryptocracy.utility;
 
 public class AppConstant {
     public static final String KEY_FILTER = "filterKey";

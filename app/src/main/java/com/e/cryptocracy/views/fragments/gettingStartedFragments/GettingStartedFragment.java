@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.e.cryptocracy.databinding.FragmentGettingStartedBinding;
 import com.e.cryptocracy.modals.WelcomeModel;
-import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.utility.AppUtils;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.e.cryptocracy.views.utility;
+package com.e.cryptocracy.utility;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

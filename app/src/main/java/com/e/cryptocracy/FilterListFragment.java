@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.cryptocracy.databinding.FilterViewBinding;
 import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
-import com.e.cryptocracy.views.utility.AppConstant;
-import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;

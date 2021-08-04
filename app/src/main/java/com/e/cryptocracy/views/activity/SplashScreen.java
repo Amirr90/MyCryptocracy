@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.ActivityMainBinding;
-import com.e.cryptocracy.views.utility.Animation;
+import com.e.cryptocracy.utility.Animation;
 
 public class SplashScreen extends AppCompatActivity {
 

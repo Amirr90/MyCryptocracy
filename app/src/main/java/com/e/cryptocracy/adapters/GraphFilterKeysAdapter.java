@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.FilterViewBinding;
 import com.e.cryptocracy.modals.FilterModel;
-import com.e.cryptocracy.views.utility.App;
-import com.e.cryptocracy.views.utility.AppUtils;
+import com.e.cryptocracy.utility.App;
+import com.e.cryptocracy.utility.AppUtils;
 
 import java.util.List;
 
