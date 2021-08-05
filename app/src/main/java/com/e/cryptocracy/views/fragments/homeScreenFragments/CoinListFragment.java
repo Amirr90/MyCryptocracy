@@ -7,23 +7,34 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.cryptocracy.R;
-import com.e.cryptocracy.databinding.CoinViewBinding;
+import com.e.cryptocracy.adapters.CoinAdapter;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
 import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.viewModal.AppViewModal;
+import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
+
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 
 
-public class CoinListFragment extends Fragment {
+public class CoinListFragment extends DaggerFragment {
     private static final String TAG = "CoinListFragment";
 
 
     FragmentCoinListBinding binding;
     NavController navController;
+    AppViewModal appViewModal;
+
+    @Inject
+    ViewModelProviderFactory providerFactory;
+    CoinAdapter coinAdapter;
+    String page = "1";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,8 +49,11 @@ public class CoinListFragment extends Fragment {
 
 
         navController = Navigation.findNavController(view);
-        binding.recCoinHome.setAdapter(new DemoAdapter());
 
+        coinAdapter = new CoinAdapter();
+        binding.recCoinHome.setAdapter(coinAdapter);
+
+        appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
        /* binding.recCoinHome.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -58,40 +72,17 @@ public class CoinListFragment extends Fragment {
             navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
         });
 
+        listenCoinData(page = "1");
+        binding.swiperefresh.setOnRefreshListener(() -> listenCoinData(page = "1"));
     }
 
-    private class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoVH> {
-        @NonNull
-        @Override
-        public DemoVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            CoinViewBinding coinViewBinding = CoinViewBinding.inflate(layoutInflater, parent, false);
-            return new DemoVH(coinViewBinding);
-        }
+    private void listenCoinData(String page) {
+        appViewModal.getAllCoins(page).observe(getViewLifecycleOwner(), coinModals -> {
+            coinAdapter.submitList(coinModals);
+            if (binding.swiperefresh.isRefreshing())
+                binding.swiperefresh.setRefreshing(false);
+        });
 
-        @Override
-        public void onBindViewHolder(@NonNull DemoVH holder, int position) {
-            holder.coinViewBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return 100;
-        }
-
-        public class DemoVH extends RecyclerView.ViewHolder {
-            CoinViewBinding coinViewBinding;
-
-            public DemoVH(@NonNull CoinViewBinding coinViewBinding) {
-                super(coinViewBinding.getRoot());
-                this.coinViewBinding = coinViewBinding;
-            }
-        }
     }
 
     public interface SortItemCLick {

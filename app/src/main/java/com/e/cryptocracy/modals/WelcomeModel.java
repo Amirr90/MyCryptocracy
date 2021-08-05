@@ -4,6 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class WelcomeModel implements Parcelable {
+    public static final Creator<WelcomeModel> CREATOR = new Creator<WelcomeModel>() {
+        @Override
+        public WelcomeModel createFromParcel(Parcel in) {
+            return new WelcomeModel(in);
+        }
+
+        @Override
+        public WelcomeModel[] newArray(int size) {
+            return new WelcomeModel[size];
+        }
+    };
     String text1;
     String text2;
     String text3;
@@ -19,18 +30,6 @@ public class WelcomeModel implements Parcelable {
         text2 = in.readString();
         text3 = in.readString();
     }
-
-    public static final Creator<WelcomeModel> CREATOR = new Creator<WelcomeModel>() {
-        @Override
-        public WelcomeModel createFromParcel(Parcel in) {
-            return new WelcomeModel(in);
-        }
-
-        @Override
-        public WelcomeModel[] newArray(int size) {
-            return new WelcomeModel[size];
-        }
-    };
 
     public String getText1() {
         return text1;

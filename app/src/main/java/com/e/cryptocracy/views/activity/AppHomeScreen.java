@@ -17,7 +17,9 @@ import com.e.cryptocracy.utility.BottomNavigationListener;
 
 import java.util.Objects;
 
-public class AppHomeScreen extends AppCompatActivity implements OnBackButtonClickListener {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class AppHomeScreen extends DaggerAppCompatActivity implements OnBackButtonClickListener {
 
     ActivityAppHomeScreenBinding binding;
     NavController navController;

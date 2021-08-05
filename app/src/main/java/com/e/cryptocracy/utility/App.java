@@ -1,12 +1,21 @@
 package com.e.cryptocracy.utility;
 
-import android.app.Application;
+import com.e.cryptocracy.component.DaggerAppComponent;
 
-public class App extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.support.DaggerApplication;
+
+public class App extends DaggerApplication {
     public static App context;
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+    }
+
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 }

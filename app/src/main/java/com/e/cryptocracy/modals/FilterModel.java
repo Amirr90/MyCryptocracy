@@ -4,6 +4,11 @@ public class FilterModel {
     String sortKeys;
     String sortText;
 
+    public FilterModel(String sortKeys, String sortText) {
+        this.sortKeys = sortKeys;
+        this.sortText = sortText;
+    }
+
     public String getSortText() {
         return sortText;
     }
@@ -18,10 +23,5 @@ public class FilterModel {
 
     public void setSortKeys(String sortKeys) {
         this.sortKeys = sortKeys;
-    }
-
-    public FilterModel(String sortKeys, String sortText) {
-        this.sortKeys = sortKeys;
-        this.sortText = sortText;
     }
 }

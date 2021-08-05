@@ -4,6 +4,13 @@
 
     <data>
 
+        <import type="com.e.cryptocracy.R" />
+
+        <import type="com.e.cryptocracy.utility.AppUtils" />
+
+        <variable
+            name="coin"
+            type="com.e.cryptocracy.modals.CoinModal" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +18,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:paddingHorizontal="2dp"
+        android:focusable="true"
+        android:paddingHorizontal="20dp"
         android:paddingTop="10dp">
 
         <TextView
@@ -22,11 +30,10 @@
             android:layout_marginLeft="2dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
-            android:text="4.5%"
+            android:text="@{``+coin.price_change_percentage_24h+`%`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/green_dark"
+            android:textColor="@{coin.price_change_percentage_24h>0?@color/green_dark:@color/red_dark}"
             android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_up_24"
             app:drawableTint="@color/green_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
-            android:text="$10,500"
+            android:text="@{``+AppUtils.getCurrencyFormat(coin.current_price)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black_light"
             app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -44,8 +51,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:loadCoinImage="@{coin.image}"
             android:src="@drawable/bitcoin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -55,14 +63,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/rubik"
+            android:fontFamily="@font/rubik_medium"
             android:gravity="end"
-            android:text="Bitcoin"
+            android:text="@{coin.name,default=`Bitcoin`}"
             android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/material_on_surface_disabled"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black_light"
+            android:textColorHighlight="@color/black_light"
             app:layout_constraintEnd_toEndOf="@+id/profile_image"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -84,9 +92,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/rubik"
-            android:text="BTC"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:text="@{coin.symbol}"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/material_on_surface_disabled"
+            android:textColorHighlight="@color/black_light"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -95,10 +105,9 @@
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginStart="30dp"
             android:fontFamily="@font/rubik"
-            android:text="Market Cap : 1.9B"
+            android:text="@{`Market Cap : `+AppUtils.prettyCount(coin.market_cap)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/material_on_surface_disabled"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"

@@ -122,8 +122,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/search_bg"
             android:paddingHorizontal="10dp"
@@ -148,6 +148,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView16"
                 app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -229,17 +230,27 @@
                 app:layout_constraintStart_toEndOf="@+id/textView13" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginHorizontal="10dp"
-            android:id="@+id/recCoinHome"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            tools:listitem="@layout/coin_view" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recCoinHome"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+                tools:listitem="@layout/coin_view" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,6 +8,14 @@ public class CurrencyModel {
     String symbol;
     Boolean selectd;
 
+    public CurrencyModel(String id, String name, String sign, String symbol, Boolean selectd) {
+        this.id = id;
+        this.name = name;
+        this.sign = sign;
+        this.symbol = symbol;
+        this.selectd = selectd;
+    }
+
     public String getId() {
         return id;
     }
@@ -46,14 +54,6 @@ public class CurrencyModel {
 
     public void setSelected(Boolean selected) {
         selectd = selected;
-    }
-
-    public CurrencyModel(String id, String name, String sign, String symbol, Boolean selectd) {
-        this.id = id;
-        this.name = name;
-        this.sign = sign;
-        this.symbol = symbol;
-        this.selectd = selectd;
     }
 
 }
