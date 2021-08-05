@@ -3,11 +3,14 @@ package com.e.cryptocracy.repositories;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.e.cryptocracy.apiInterface.Api;
 import com.e.cryptocracy.appDao.AppDao;
 import com.e.cryptocracy.appDatabase.AppDatabase;
+import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.utility.App;
 
@@ -28,6 +31,7 @@ public class ApiRepository {
     Api api;
     AppDao appDao;
     LiveData<List<CoinModal>> userList;
+    MutableLiveData<List<CoinCategoryModal>> categoryList;
 
 
     @Inject
@@ -45,7 +49,6 @@ public class ApiRepository {
     private void initGetUserApi(String page) {
         new InsertDataInToUserTable(api, appDao, page).execute();
     }
-
 
     public static class InsertDataInToUserTable extends AsyncTask<Void, Void, Void> {
 
@@ -87,5 +90,30 @@ public class ApiRepository {
             return null;
         }
     }
+
+
+    //getting category data
+    public LiveData<List<CoinCategoryModal>> getAllCoinsCategory() {
+        if (null == categoryList)
+            initGetCategoryData();
+        return categoryList;
+    }
+
+    private void initGetCategoryData() {
+        api.getAllCoinCategory().enqueue(new Callback<List<CoinCategoryModal>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Response<List<CoinCategoryModal>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    categoryList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
 
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.repositories.ApiRepository;
 
@@ -26,6 +27,10 @@ public class AppViewModal extends ViewModel {
 
     public LiveData<List<CoinModal>> getAllCoins(String page) {
         return apiRepository.getAllCoins(page);
+    }
+
+    public LiveData<List<CoinCategoryModal>> getAllCategory() {
+        return apiRepository.getAllCoinsCategory();
     }
 
 }
