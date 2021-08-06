@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.cryptocracy.adapters.AppViewHolder;
 import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
+import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.CoinDetailViewBinding;
 import com.e.cryptocracy.databinding.FragmentCoinDetailBinding;
 import com.e.cryptocracy.modals.FilterModel;
@@ -46,8 +47,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import dagger.android.support.DaggerFragment;
 
-public class CoinDetailFragment extends Fragment {
+
+public class CoinDetailFragment extends DaggerFragment implements onAdapterClick {
     FragmentCoinDetailBinding binding;
     NavController navController;
 
@@ -83,7 +86,7 @@ public class CoinDetailFragment extends Fragment {
     private void setUpGraphFilterKeysRec() {
         binding.recFilter.setItemAnimator(new DefaultItemAnimator());
         binding.recFilter.setHasFixedSize(true);
-        binding.recFilter.setAdapter(new GraphFilterKeysAdapter(AppUtils.getGraphFilterKeysList()));
+        binding.recFilter.setAdapter(new GraphFilterKeysAdapter(AppUtils.getGraphFilterKeysList(),this));
     }
 
     private void setUpDemoGraphView() {
@@ -220,6 +223,11 @@ public class CoinDetailFragment extends Fragment {
         options.setNavigation(navigation);
 
         chartView.setOptions(options);
+    }
+
+    @Override
+    public void onClickItem(Object obj) {
+
     }
 
     private class CoinDetailsAdapter extends RecyclerView.Adapter<AppViewHolder> {

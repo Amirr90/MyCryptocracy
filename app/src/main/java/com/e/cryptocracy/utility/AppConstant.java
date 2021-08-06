@@ -4,7 +4,7 @@ public class AppConstant {
     public static final String KEY_FILTER = "filterKey";
     public static final String ASCENDING = "Ascending";
     public static final String DESCENDING = "Descending";
-    public static final String MARKET_CAP = "Market Cap";
+    public static final String MARKET_CAP = "Market Cap Descending";
     public static final String NAME = "Name";
     public static final String MARKET_CAP_STRICT = "Market Cap Strict";
     public static final String MARKET_CAP_BY_TOTAL_SUPPLY_STRICT = "Market Cap BY Total Supply Strict";
@@ -30,4 +30,5 @@ public class AppConstant {
     public static final String ALL_TIME_HIGH = "All Time High";
     public static final String ALL_TIME_LOW = "All Time Low";
     public static final String ALL_TIME_HIGH_DATE = "All Time High Date";
+    public static final String CURRENCY = "currency";
 }

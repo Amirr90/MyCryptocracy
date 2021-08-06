@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.e.cryptocracy.OnBackButtonClickListener;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.ActivityAppHomeScreenBinding;
+import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.utility.BottomNavigationListener;
 
 import java.util.Objects;
@@ -72,5 +72,6 @@ public class AppHomeScreen extends DaggerAppCompatActivity implements OnBackButt
     @Override
     public void onClick(View v) {
         navController.navigateUp();
+        AppUtils.hideSoftKeyboard(this);
     }
 }

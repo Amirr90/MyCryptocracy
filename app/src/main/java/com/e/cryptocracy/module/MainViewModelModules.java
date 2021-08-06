@@ -14,4 +14,5 @@ public abstract class MainViewModelModules {
     @IntoMap
     @ViewModelKey(AppViewModal.class)
     public abstract ViewModel bindViewModel(AppViewModal appViewModal);
+
 }

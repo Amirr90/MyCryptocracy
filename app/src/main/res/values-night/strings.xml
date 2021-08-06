@@ -14,4 +14,6 @@
     <string name="text_label_4">Market</string>
     <string name="text_label_5">News</string>
     <string name="text_label_6">Tweets</string>
+    <string name="category">Category</string>
+    <string name="currency">Currency</string>
 </resources>

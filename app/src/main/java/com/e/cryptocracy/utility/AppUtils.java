@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -114,25 +118,6 @@ public class AppUtils {
         return strings;
     }
 
-    public static String getCurrencyFormat(double num) {
-        String COUNTRY = "IN";
-        String LANGUAGE = "en";
-        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
-    }
-
-    public static String getCurrencyFormat(long num) {
-        String COUNTRY = "IN";
-        String LANGUAGE = "en";
-        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
-    }
-
-    public static String getCurrencyFormat(String num) {
-        Double number = Double.parseDouble(num);
-        String COUNTRY = "IN";
-        String LANGUAGE = "en";
-        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(number);
-
-    }
 
     public static void showToolbar(Activity activity) {
         Objects.requireNonNull(((AppCompatActivity) activity).getSupportActionBar()).show();
@@ -209,6 +194,17 @@ public class AppUtils {
 
     }
 
+    public static String getString(String key, Context activity) {
+        if (activity != null) {
+            SharedPreferences pref = activity.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            if (key.equalsIgnoreCase(AppConstant.CURRENCY))
+                return pref.getString(key, "USD");
+            else
+                return pref.getString(key, "");
+        } else return null;
+
+    }
+
     public static boolean getBoolean(String key, Activity activity) {
         SharedPreferences pref = activity.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         return pref.getBoolean(key, false);
@@ -249,5 +245,57 @@ public class AppUtils {
         } else {
             return new DecimalFormat("#,##0").format(num);
         }
+    }
+
+    public static List<String> coinFilterKeys() {
+        List<String> list = new ArrayList<>();
+        list.add(App.context.getString(R.string.currency));
+        list.add(App.context.getString(R.string.price));
+        list.add(App.context.getString(R.string.all));
+        list.add(App.context.getString(R.string.type));
+        list.add(App.context.getString(R.string.category));
+        return list;
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        if (activity != null) {
+            try {
+                @SuppressLint("WrongConstant") InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService("input_method");
+                View view = activity.getCurrentFocus();
+                if (view != null) {
+                    IBinder binder = view.getWindowToken();
+                    if (binder != null) {
+                        inputMethodManager.hideSoftInputFromWindow(binder, 0);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Objects.requireNonNull(activity).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+    }
+
+
+    public static String getCurrencyFormat(double num) {
+        String currency = getString(AppConstant.CURRENCY, App.context).toUpperCase();
+        String COUNTRY = currency.substring(0, 2);
+        String LANGUAGE = "en";
+        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
+    }
+
+    public static String getCurrencyFormat(long num) {
+        String currency = getString(AppConstant.CURRENCY, App.context).toUpperCase();
+        String COUNTRY = currency.substring(0, 2);
+        String LANGUAGE = "en";
+        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
+    }
+
+    public static String getCurrencyFormat(String num) {
+        String currency = getString(AppConstant.CURRENCY, App.context).toUpperCase();
+        String COUNTRY = currency.substring(0, 2);
+        String LANGUAGE = "en";
+        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
     }
 }

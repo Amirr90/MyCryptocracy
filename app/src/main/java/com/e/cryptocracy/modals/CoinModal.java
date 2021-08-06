@@ -14,7 +14,7 @@ public class CoinModal {
     private String image;
     private double current_price;
     private double market_cap;
-    private String total_volume;
+    private double total_volume;
     private double price_change_percentage_24h;
     private String price_change_24h;
     private String name;
@@ -63,11 +63,11 @@ public class CoinModal {
         this.market_cap = market_cap;
     }
 
-    public String getTotal_volume() {
+    public double getTotal_volume() {
         return total_volume;
     }
 
-    public void setTotal_volume(String total_volume) {
+    public void setTotal_volume(double total_volume) {
         this.total_volume = total_volume;
     }
 

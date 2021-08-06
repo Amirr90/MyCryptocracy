@@ -10,11 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
+import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
+import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
 import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
 
@@ -23,7 +27,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class CoinListFragment extends DaggerFragment {
+public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     private static final String TAG = "CoinListFragment";
 
 
@@ -62,18 +66,35 @@ public class CoinListFragment extends DaggerFragment {
             }
         });*/
 
-        binding.ivHomeSetting.setOnClickListener(v -> {
+        binding.ivSearch.setOnClickListener(v -> {
             navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
         });
 
         binding.setSortClickListener(name -> {
             Bundle bundle = new Bundle();
             bundle.putString(AppConstant.KEY_FILTER, name);
-            navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
+            if (name.equalsIgnoreCase(getString(R.string.currency)))
+                navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+            else
+                navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
         });
 
         listenCoinData(page = "1");
         binding.swiperefresh.setOnRefreshListener(() -> listenCoinData(page = "1"));
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setUpGraphFilterKeysRec();
+    }
+
+    private void setUpGraphFilterKeysRec() {
+        binding.recFilter.setItemAnimator(new DefaultItemAnimator());
+        binding.recFilter.setHasFixedSize(true);
+        binding.recFilter.setAdapter(new GraphFilterKeysAdapter(AppUtils.coinFilterKeys(), this));
     }
 
     private void listenCoinData(String page) {
@@ -85,7 +106,20 @@ public class CoinListFragment extends DaggerFragment {
 
     }
 
+    @Override
+    public void onClickItem(Object obj) {
+        String key = (String) obj;
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstant.KEY_FILTER, key);
+        if (key.equalsIgnoreCase(getString(R.string.currency)))
+            navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+        else
+            navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
+    }
+
     public interface SortItemCLick {
         void onClick(String name);
+
     }
+
 }

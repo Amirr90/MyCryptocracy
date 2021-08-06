@@ -4,7 +4,6 @@ package com.e.cryptocracy.component;
 import com.e.cryptocracy.module.ActivityBuilderModule;
 import com.e.cryptocracy.module.AppModule;
 import com.e.cryptocracy.utility.App;
-import com.e.cryptocracy.views.activity.SplashScreen;
 
 import javax.inject.Singleton;
 
@@ -22,13 +21,11 @@ import dagger.android.support.DaggerApplication;
 
 public interface AppComponent extends AndroidInjector<App> {
 
-    void inject(SplashScreen screen);
-
+   // void inject(SplashScreen screen);
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(DaggerApplication screen);
-
         AppComponent build();
     }
 

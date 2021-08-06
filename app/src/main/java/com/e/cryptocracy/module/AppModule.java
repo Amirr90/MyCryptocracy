@@ -32,13 +32,10 @@ public class AppModule {
     @Provides
     OkHttpClient.Builder provideHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.setMaxRequests(1);
-
         httpClient.addInterceptor(logging);
         httpClient.dispatcher(dispatcher);
         return httpClient;

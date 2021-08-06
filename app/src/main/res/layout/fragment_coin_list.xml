@@ -49,10 +49,10 @@
                 android:clickable="true"
                 android:padding="10dp"
                 android:src="@drawable/ic_baseline_search_24"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/ivHomeSetting"
+                app:layout_constraintEnd_toStartOf="@+id/ivHomeSetting"
+                app:layout_constraintTop_toTopOf="@+id/ivHomeSetting"
                 app:tint="@color/black" />
 
             <ImageView
@@ -93,13 +93,13 @@
                 android:text="Market Cap"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/ivHomeSetting"
+                app:layout_constraintEnd_toStartOf="@+id/ivSearch"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/etSearchCurrency"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -120,6 +120,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +131,7 @@
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName">
+            app:layout_constraintTop_toBottomOf="@+id/etSearchCurrency">
 
             <TextView
                 android:id="@+id/textView10"
@@ -140,10 +141,10 @@
                 android:backgroundTint="@color/purple_200"
                 android:clickable="true"
                 android:fontFamily="@font/rubik"
-                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.name))}"
+                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.currency))}"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
-                android:text="@string/name"
+                android:text="@string/currency"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView16"
@@ -219,10 +220,10 @@
                 android:backgroundTint="@color/purple_200"
                 android:clickable="true"
                 android:fontFamily="@font/rubik"
-                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.tag))}"
+                android:onClick="@{()->sortClickListener.onClick(App.context.getString(R.string.category))}"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
-                android:text="@string/tag"
+                android:text="@string/category"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -231,6 +232,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            tools:listitem="@layout/filter_view" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
@@ -238,7 +250,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/recFilter">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recCoinHome"

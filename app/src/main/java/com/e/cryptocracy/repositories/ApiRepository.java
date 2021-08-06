@@ -7,12 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.e.apiResponse.CurrencyResponse;
 import com.e.cryptocracy.apiInterface.Api;
 import com.e.cryptocracy.appDao.AppDao;
 import com.e.cryptocracy.appDatabase.AppDatabase;
 import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
+import com.e.cryptocracy.modals.CurrencyModel;
 import com.e.cryptocracy.utility.App;
+import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUrl;
+import com.e.cryptocracy.utility.AppUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +29,8 @@ import javax.inject.Singleton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Singleton
 public class ApiRepository {
@@ -32,6 +39,7 @@ public class ApiRepository {
     AppDao appDao;
     LiveData<List<CoinModal>> userList;
     MutableLiveData<List<CoinCategoryModal>> categoryList;
+    MutableLiveData<List<CurrencyModel>> currencyList;
 
 
     @Inject
@@ -50,12 +58,43 @@ public class ApiRepository {
         new InsertDataInToUserTable(api, appDao, page).execute();
     }
 
+    public LiveData<List<CurrencyModel>> getAllCurrencyList() {
+        if (null == currencyList) {
+            currencyList = new MutableLiveData<>();
+            initGetCurrencyData();
+        }
+        return currencyList;
+    }
+
+    private void initGetCurrencyData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AppUrl.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api = retrofit.create(Api.class);
+
+        api.getAllCurrencyList().enqueue(new Callback<CurrencyResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CurrencyResponse> call, @NonNull Response<CurrencyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CurrencyResponse currencyResponse = response.body();
+                    currencyList.setValue(currencyResponse.getData());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CurrencyResponse> call, @NonNull Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+    }
+
     public static class InsertDataInToUserTable extends AsyncTask<Void, Void, Void> {
 
         Api api;
         AppDao appDao;
         String page;
-        String currency = "INR";
+        String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
 
         public InsertDataInToUserTable(Api api, AppDao appDao, String page) {
             this.api = api;
@@ -94,8 +133,10 @@ public class ApiRepository {
 
     //getting category data
     public LiveData<List<CoinCategoryModal>> getAllCoinsCategory() {
-        if (null == categoryList)
+        if (null == categoryList) {
+            categoryList = new MutableLiveData<>();
             initGetCategoryData();
+        }
         return categoryList;
     }
 

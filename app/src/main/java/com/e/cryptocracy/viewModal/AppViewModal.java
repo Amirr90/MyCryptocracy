@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
+import com.e.cryptocracy.modals.CurrencyModel;
 import com.e.cryptocracy.repositories.ApiRepository;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public class AppViewModal extends ViewModel {
         return apiRepository.getAllCoinsCategory();
     }
 
+    public LiveData<List<CurrencyModel>> getAllCurrency() {
+        return apiRepository.getAllCurrencyList();
+    }
 }
