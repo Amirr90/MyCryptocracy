@@ -15,10 +15,12 @@ import retrofit2.http.Query;
 
 public interface Api {
 
-    @GET("/api/v3/coins/markets?order=market_cap_desc&per_page=100&sparkline=false")
+    @GET("/api/v3/coins/markets?per_page=100&sparkline=false")
     Call<List<CoinModal>> getAllLatestCoins(
             @Query("page") String page,
-            @Query("vs_currency") String convert
+            @Query("vs_currency") String convert,
+            @Query("category") String category,
+            @Query("order") String order
     );
 
 

@@ -10,7 +10,7 @@ import com.e.cryptocracy.databinding.CurrencyViewBinding;
 import com.e.cryptocracy.databinding.FilterViewBinding;
 
 public class AppViewHolder extends RecyclerView.ViewHolder {
-    FilterViewBinding filterViewBinding;
+    public FilterViewBinding filterViewBinding;
     public CoinDetailViewBinding coinDetailViewBinding;
     CurrencyViewBinding currencyViewBinding;
     CoinTradingMarketViewBinding coinTradingMarketViewBinding;

@@ -31,4 +31,20 @@ public class AppConstant {
     public static final String ALL_TIME_LOW = "All Time Low";
     public static final String ALL_TIME_HIGH_DATE = "All Time High Date";
     public static final String CURRENCY = "currency";
+    public static final String COIN_LIST_FILTER_KEY = "coinListFilterKey";
+    public static final String CATEGORY = "category";
+    public static final String MARKET_CAP_DESC = "Market Cap Descending";
+    public static final String MARKET_CAP_ACS = "Market Cap Ascending";
+    public static final String GECKO_DESC = "Gecko Descending";
+    public static final String GECKO_ASC = "Gecko Ascending";
+    public static final String VOLUME_ASC = "Volume Ascending";
+    public static final String VOLUME_DESC = "Volume Descending";
+    public static final String ORDER_BY = "orderBy";
+    public static final String SORT_1H = "1 Hour";
+    public static final String SORT_24H = "24 Hour";
+    public static final String SORT_7D = "7 Days";
+    public static final String SORT_14D = "14 days";
+    public static final String SORT_30D = "30 days";
+    public static final String SORT_200D = "200 Days";
+    public static final String SORT_1Y = "1 Year";
 }

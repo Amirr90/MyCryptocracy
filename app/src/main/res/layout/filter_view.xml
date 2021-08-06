@@ -27,7 +27,7 @@
             android:fontFamily="@font/rubik"
             android:paddingHorizontal="15dp"
             android:paddingVertical="7dp"
-            android:text="@{filterModel.sortKeys}"
+            android:text="@{filterModel.sortText}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

@@ -67,10 +67,11 @@ public class AppUtils {
 
     public static List<FilterModel> getFilterList(String type, FragmentFilterListBinding binding) {
 
+        Log.d(TAG, "getFilterList: " + type);
         List<FilterModel> filterModels = new ArrayList<>();
         if (type.equalsIgnoreCase(App.context.getString(R.string.name)) || type.equalsIgnoreCase(App.context.getString(R.string.price))) {
-            filterModels.add(new FilterModel(AppConstant.ASCENDING, "asc"));
-            filterModels.add(new FilterModel(AppConstant.DESCENDING, "desc"));
+            filterModels.add(new FilterModel("id_asc", AppConstant.ASCENDING));
+            filterModels.add(new FilterModel("id_desc", AppConstant.DESCENDING));
             binding.textView14.setText(String.format("Sort %s", type));
             binding.recFilter.setLayoutManager(new LinearLayoutManager(App.context, LinearLayoutManager.HORIZONTAL, false));
         } else if (type.equalsIgnoreCase(App.context.getString(R.string.all))) {
@@ -98,10 +99,30 @@ public class AppUtils {
             binding.recFilter.setLayoutManager(new LinearLayoutManager(App.context, LinearLayoutManager.HORIZONTAL, false));
         } else if (type.equalsIgnoreCase(App.context.getString(R.string.tag))) {
             binding.textView14.setText("Tag Filter");
-            filterModels.add(new FilterModel(AppConstant.ALL, "all"));
-            filterModels.add(new FilterModel(AppConstant.DEFI, "defi"));
-            filterModels.add(new FilterModel(AppConstant.FILESHARING, "filesharing"));
+            filterModels.add(new FilterModel("all", AppConstant.ALL));
+            filterModels.add(new FilterModel("defi", AppConstant.DEFI));
+            filterModels.add(new FilterModel("filesharing", AppConstant.FILESHARING));
             binding.recFilter.setLayoutManager(new LinearLayoutManager(App.context, LinearLayoutManager.HORIZONTAL, false));
+        } else if (type.equalsIgnoreCase(App.context.getString(R.string.sort_type))) {
+            binding.textView14.setText("Order By");
+            filterModels.add(new FilterModel("market_cap_desc", AppConstant.MARKET_CAP_DESC));
+            filterModels.add(new FilterModel("market_cap_asc", AppConstant.MARKET_CAP_ACS));
+            filterModels.add(new FilterModel("gecko_desc", AppConstant.GECKO_DESC));
+            filterModels.add(new FilterModel("gecko_asc", AppConstant.GECKO_ASC));
+            filterModels.add(new FilterModel("volume_asc", AppConstant.VOLUME_ASC));
+            filterModels.add(new FilterModel("volume_desc", AppConstant.VOLUME_DESC));
+
+        } else if (type.equalsIgnoreCase(App.context.getString(R.string.hour_sort))) {
+            binding.textView14.setText("Order By");
+            filterModels.add(new FilterModel("1h", AppConstant.SORT_1H));
+            filterModels.add(new FilterModel("24h", AppConstant.SORT_24H));
+            filterModels.add(new FilterModel("7d", AppConstant.SORT_7D));
+            filterModels.add(new FilterModel("14d", AppConstant.SORT_14D));
+            filterModels.add(new FilterModel("30d", AppConstant.SORT_30D));
+            filterModels.add(new FilterModel("200d", AppConstant.SORT_200D));
+            filterModels.add(new FilterModel("1y", AppConstant.SORT_1Y));
+
+
         }
         return filterModels;
     }
@@ -197,10 +218,7 @@ public class AppUtils {
     public static String getString(String key, Context activity) {
         if (activity != null) {
             SharedPreferences pref = activity.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            if (key.equalsIgnoreCase(AppConstant.CURRENCY))
-                return pref.getString(key, "USD");
-            else
-                return pref.getString(key, "");
+            return pref.getString(key, "");
         } else return null;
 
     }
@@ -251,8 +269,8 @@ public class AppUtils {
         List<String> list = new ArrayList<>();
         list.add(App.context.getString(R.string.currency));
         list.add(App.context.getString(R.string.price));
-        list.add(App.context.getString(R.string.all));
-        list.add(App.context.getString(R.string.type));
+        list.add(App.context.getString(R.string.h_1));
+        list.add(App.context.getString(R.string.sort_type));
         list.add(App.context.getString(R.string.category));
         return list;
     }

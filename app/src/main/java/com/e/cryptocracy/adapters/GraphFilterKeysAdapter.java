@@ -1,7 +1,6 @@
 package com.e.cryptocracy.adapters;
 
 import android.os.Build;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -40,7 +39,7 @@ public class GraphFilterKeysAdapter extends RecyclerView.Adapter<AppViewHolder> 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        holder.filterViewBinding.setFilterModel(new FilterModel(keys.get(position), ""));
+        holder.filterViewBinding.setFilterModel(new FilterModel("", keys.get(position)));
         holder.filterViewBinding.textView10.setOnClickListener(v -> adapterClick.onClickItem(keys.get(position)));
         // holder.coinDetailViewBinding.textView10.getBackground().setTint(colorsDif[position]);
     }

@@ -17,6 +17,7 @@ import com.e.cryptocracy.adapters.CoinAdapter;
 import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
+import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.viewModal.AppViewModal;
@@ -66,6 +67,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
             }
         });*/
 
+        receiveBackStackData();
         binding.ivSearch.setOnClickListener(v -> {
             navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
         });
@@ -83,15 +85,25 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         binding.swiperefresh.setOnRefreshListener(() -> listenCoinData(page = "1"));
     }
 
+    private void receiveBackStackData() {
+        navController.getCurrentBackStackEntry().getSavedStateHandle().getLiveData(AppConstant.COIN_LIST_FILTER_KEY)
+                .observe(getViewLifecycleOwner(), value -> {
+                    listenCoinData(page = "1");
+                });
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
 
-        setUpGraphFilterKeysRec();
+        setCoinFilterKeys();
+        if (AppUtils.getString(AppConstant.CURRENCY, App.context).contentEquals(""))
+            navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+
     }
 
-    private void setUpGraphFilterKeysRec() {
+    private void setCoinFilterKeys() {
         binding.recFilter.setItemAnimator(new DefaultItemAnimator());
         binding.recFilter.setHasFixedSize(true);
         binding.recFilter.setAdapter(new GraphFilterKeysAdapter(AppUtils.coinFilterKeys(), this));

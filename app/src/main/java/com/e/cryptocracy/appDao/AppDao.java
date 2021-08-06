@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
 
 import java.util.List;
@@ -19,11 +20,25 @@ public interface AppDao {
     void addCoins(CoinModal user);
     @Query("select * from coin_table")
     LiveData<List<CoinModal>> getAllCoins();
+    @Query("delete from coin_table")
+    void deleteAllCoins();
+
+
     @Update
     void updateCoins(CoinModal user);
     @Delete
     void deleteCoins(CoinModal user);
-    @Query("delete from coin_table")
-    void deleteAllCoins();
+
+
+    //for category
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addCategory(CoinCategoryModal user);
+
+    @Query("select * from category_table")
+    LiveData<List<CoinCategoryModal>> getAllCategory();
+
+    @Query("delete from category_table")
+    void deleteAllCategory();
+
 
 }

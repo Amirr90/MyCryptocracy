@@ -22,6 +22,9 @@
     <string name="text_label_6">Tweets</string>
     <string name="category">Category</string>
     <string name="currency">Currency</string>
+    <string name="sort_type">OrderBy</string>
+    <string name="h_1">1 H</string>
+    <string name="hour_sort">sort_by_hour</string>
 
     <!--    Live Ad Id-->
     <!--        <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-5778282166425967/2981756838</string>-->

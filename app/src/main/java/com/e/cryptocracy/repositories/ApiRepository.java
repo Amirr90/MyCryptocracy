@@ -38,7 +38,7 @@ public class ApiRepository {
     Api api;
     AppDao appDao;
     LiveData<List<CoinModal>> userList;
-    MutableLiveData<List<CoinCategoryModal>> categoryList;
+    LiveData<List<CoinCategoryModal>> categoryList;
     MutableLiveData<List<CurrencyModel>> currencyList;
 
 
@@ -47,6 +47,7 @@ public class ApiRepository {
         this.api = api;
         appDao = AppDatabase.getDatabase(App.context).getAppDao();
         userList = appDao.getAllCoins();
+        categoryList = appDao.getAllCategory();
     }
 
     public LiveData<List<CoinModal>> getAllCoins(String page) {
@@ -95,6 +96,8 @@ public class ApiRepository {
         AppDao appDao;
         String page;
         String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
+        String category = AppUtils.getString(AppConstant.CATEGORY, App.context);
+        String orderBy = AppUtils.getString(AppConstant.ORDER_BY, App.context);
 
         public InsertDataInToUserTable(Api api, AppDao appDao, String page) {
             this.api = api;
@@ -104,27 +107,30 @@ public class ApiRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            api.getAllLatestCoins(page, currency).enqueue(new Callback<List<CoinModal>>() {
-                @Override
-                public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        appDao.deleteAllCoins();
-                        List<CoinModal> coinModals = response.body();
-                        if (null != coinModals && !coinModals.isEmpty())
-                            for (int a = 0; a < coinModals.size(); a++) {
-                                appDao.addCoins(coinModals.get(a));
+            api.getAllLatestCoins(page, currency,
+                    category.isEmpty() ? null : category,
+                    orderBy.isEmpty() ? "market_cap_desc" : orderBy)
+                    .enqueue(new Callback<List<CoinModal>>() {
+                        @Override
+                        public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                appDao.deleteAllCoins();
+                                List<CoinModal> coinModals = response.body();
+                                if (null != coinModals && !coinModals.isEmpty())
+                                    for (int a = 0; a < coinModals.size(); a++) {
+                                        appDao.addCoins(coinModals.get(a));
+                                    }
+                                else {
+                                    Log.d(TAG, "onResponse: getAllLatestCoins " + response.message());
+                                }
                             }
-                        else {
-                            Log.d(TAG, "onResponse: getAllLatestCoins " + response.message());
                         }
-                    }
-                }
 
-                @Override
-                public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
-                    Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
-                }
-            });
+                        @Override
+                        public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
+                            Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                        }
+                    });
 
             return null;
         }
@@ -133,28 +139,48 @@ public class ApiRepository {
 
     //getting category data
     public LiveData<List<CoinCategoryModal>> getAllCoinsCategory() {
-        if (null == categoryList) {
-            categoryList = new MutableLiveData<>();
-            initGetCategoryData();
-        }
+        initGetCategoryData();
         return categoryList;
     }
 
     private void initGetCategoryData() {
-        api.getAllCoinCategory().enqueue(new Callback<List<CoinCategoryModal>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Response<List<CoinCategoryModal>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    categoryList.setValue(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
-            }
-        });
+        new InsertDataInToCategoryTable(api, appDao).execute();
     }
 
 
+    public static class InsertDataInToCategoryTable extends AsyncTask<Void, Void, Void> {
+        Api api;
+        AppDao appDao;
+
+        public InsertDataInToCategoryTable(Api api, AppDao appDao) {
+            this.api = api;
+            this.appDao = appDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            api.getAllCoinCategory().enqueue(new Callback<List<CoinCategoryModal>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Response<List<CoinCategoryModal>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        appDao.deleteAllCategory();
+                        List<CoinCategoryModal> categoryModals = response.body();
+                        if (null != categoryModals && !categoryModals.isEmpty())
+                            for (int a = 0; a < categoryModals.size(); a++) {
+                                appDao.addCategory(categoryModals.get(a));
+                            }
+                        else {
+                            Log.d(TAG, "onResponse: getAllLatestCoins " + response.message());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<List<CoinCategoryModal>> call, @NonNull Throwable t) {
+                    Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                }
+            });
+            return null;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.e.cryptocracy;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.e.cryptocracy.databinding.FilterViewBinding;
+import com.e.cryptocracy.adapters.FilterAdapter;
+import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -33,9 +36,10 @@ import dagger.android.support.AndroidSupportInjection;
 import static com.e.cryptocracy.utility.AppUtils.getFilterList;
 
 
-public class FilterListFragment extends BottomSheetDialogFragment {
+public class FilterListFragment extends BottomSheetDialogFragment implements onAdapterClick {
 
 
+    private static final String TAG = "FilterListFragment";
     FragmentFilterListBinding binding;
 
     AppViewModal appViewModal;
@@ -43,6 +47,7 @@ public class FilterListFragment extends BottomSheetDialogFragment {
     ViewModelProviderFactory providerFactory;
 
     FilterAdapter filterAdapter;
+    String key;
 
 
     @Override
@@ -68,12 +73,11 @@ public class FilterListFragment extends BottomSheetDialogFragment {
         if (null == getArguments())
             dismiss();
 
-      /*  binding.recFilter.addItemDecoration(new
-                DividerItemDecoration(requireActivity(),
-                DividerItemDecoration.VERTICAL));*/
+        key = getArguments().getString(AppConstant.KEY_FILTER);
+
         binding.recFilter.setItemAnimator(new DefaultItemAnimator());
         binding.recFilter.setHasFixedSize(true);
-        filterAdapter = new FilterAdapter(new ArrayList<>());
+        filterAdapter = new FilterAdapter(this);
         binding.recFilter.setAdapter(filterAdapter);
 
         if (getArguments().getString(AppConstant.KEY_FILTER).equalsIgnoreCase(getString(R.string.category))) {
@@ -82,15 +86,23 @@ public class FilterListFragment extends BottomSheetDialogFragment {
                 List<FilterModel> list = new ArrayList<>();
                 for (CoinCategoryModal modal : coinCategoryModals)
                     list.add(new FilterModel(modal.getCategory_id(), modal.getName()));
-                filterAdapter.addItem(list);
-                filterAdapter.notifyDataSetChanged();
+                filterAdapter.submitList(list);
                 binding.progressBar.setVisibility(View.GONE);
             });
         } else {
-            filterAdapter.addItem(getFilterList(getArguments().getString(AppConstant.KEY_FILTER), binding));
-            filterAdapter.notifyDataSetChanged();
+            filterAdapter.submitList(getFilterList(getArguments().getString(AppConstant.KEY_FILTER), binding));
         }
 
+
+        binding.tvClearFilter.setOnClickListener(v -> {
+            if (key.equalsIgnoreCase(getString(R.string.category)))
+                AppUtils.setString(AppConstant.CATEGORY, "", requireActivity());
+
+
+            NavHostFragment.findNavController(requireParentFragment()).getPreviousBackStackEntry().getSavedStateHandle().set(AppConstant.COIN_LIST_FILTER_KEY, key);
+            NavHostFragment.findNavController(requireParentFragment()).popBackStack();
+            dismiss();
+        });
     }
 
 
@@ -106,46 +118,22 @@ public class FilterListFragment extends BottomSheetDialogFragment {
         binding.tvThought.setText(thoughts[position]);
     }
 
-    private class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.DemoVH> {
-        List<FilterModel> modelList;
 
-        public FilterAdapter(List<FilterModel> modelList) {
-            this.modelList = modelList;
-        }
+    @Override
+    public void onClickItem(Object obj) {
 
-        @NonNull
-        @Override
-        public FilterAdapter.DemoVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            FilterViewBinding coinViewBinding = FilterViewBinding.inflate(layoutInflater, parent, false);
-            return new FilterAdapter.DemoVH(coinViewBinding);
-        }
+        FilterModel filterModel = (FilterModel) obj;
+        Log.d(TAG, "onClickItem: " + filterModel.getSortKeys());
 
-        @Override
-        public void onBindViewHolder(@NonNull FilterAdapter.DemoVH holder, int position) {
-            holder.coinViewBinding.setFilterModel(modelList.get(position));
-            holder.coinViewBinding.getRoot().setOnClickListener(v -> dismiss());
-        }
+        if (key.equalsIgnoreCase(getString(R.string.category)))
+            AppUtils.setString(AppConstant.CATEGORY, filterModel.getSortKeys(), requireActivity());
 
-        @Override
-        public int getItemCount() {
-            return modelList.size();
-        }
+        else if (key.equalsIgnoreCase(getString(R.string.sort_type)) || key.equalsIgnoreCase(getString(R.string.price)))
+            AppUtils.setString(AppConstant.ORDER_BY, filterModel.getSortKeys(), requireActivity());
 
-        public class DemoVH extends RecyclerView.ViewHolder {
-            FilterViewBinding coinViewBinding;
 
-            public DemoVH(@NonNull FilterViewBinding coinViewBinding) {
-                super(coinViewBinding.getRoot());
-                this.coinViewBinding = coinViewBinding;
-            }
-        }
-
-        public void addItem(List<FilterModel> filterModels) {
-            if (null == modelList) {
-                modelList = new ArrayList<>();
-            }
-            modelList.addAll(filterModels);
-        }
+        NavHostFragment.findNavController(requireParentFragment()).getPreviousBackStackEntry().getSavedStateHandle().set(AppConstant.COIN_LIST_FILTER_KEY, key);
+        NavHostFragment.findNavController(requireParentFragment()).popBackStack();
+        dismiss();
     }
 }
