@@ -150,7 +150,7 @@ public class AppUtils {
             binding.textView14.setText("Tag Filter");
             filterModels.add(new FilterModel("all", AppConstant.ALL));
             filterModels.add(new FilterModel("defi", AppConstant.DEFI));
-            filterModels.add(new FilterModel("filesharing", AppConstant.FILESHARING));
+            filterModels.add(new FilterModel("filesharing", AppConstant.FILE_SHARING));
             binding.recFilter.setLayoutManager(new LinearLayoutManager(App.context, LinearLayoutManager.HORIZONTAL, false));
         } else if (type.equalsIgnoreCase(App.context.getString(R.string.sort_type))) {
             binding.textView14.setText("Order By");

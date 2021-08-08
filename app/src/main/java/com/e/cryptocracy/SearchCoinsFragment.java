@@ -18,7 +18,6 @@ import com.e.cryptocracy.adapters.SearchCoinAdapter;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentSearchCoinsBinding;
 import com.e.cryptocracy.modals.SearchedCoinModal;
-import com.e.cryptocracy.modals.TrendingItem;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
@@ -106,6 +105,7 @@ public class SearchCoinsFragment extends DaggerFragment implements onAdapterClic
 
     private void filter(String key) {
         if (allCoinsList != null) {
+            adapter.submitList(new ArrayList<>());
             List<SearchedCoinModal> filterList = new ArrayList<>();
             for (SearchedCoinModal modal : allCoinsList) {
                 if (

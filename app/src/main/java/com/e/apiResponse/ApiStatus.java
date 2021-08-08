@@ -1,5 +1,7 @@
 package com.e.apiResponse;
 
+import androidx.annotation.NonNull;
+
 public class ApiStatus {
     String timestamp;
     Integer error_code;
@@ -37,6 +39,7 @@ public class ApiStatus {
         return total_count;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ApiStatus{" +

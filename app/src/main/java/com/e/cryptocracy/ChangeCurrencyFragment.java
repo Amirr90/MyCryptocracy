@@ -25,7 +25,6 @@ import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
 import com.e.cryptocracy.views.activity.AppHomeScreen;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;

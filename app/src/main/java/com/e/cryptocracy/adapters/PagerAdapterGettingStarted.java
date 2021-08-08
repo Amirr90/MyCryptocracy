@@ -1,5 +1,6 @@
 package com.e.cryptocracy.adapters;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -21,6 +22,7 @@ public class PagerAdapterGettingStarted extends FragmentPagerAdapter {
     }
 
     // Returns the fragment to display for that page
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return GettingStartedFragment.newInstance(position);

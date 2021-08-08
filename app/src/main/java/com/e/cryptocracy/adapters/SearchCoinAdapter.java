@@ -43,8 +43,9 @@ public class SearchCoinAdapter extends ListAdapter<SearchedCoinModal, AppViewHol
         holder.searchedCoinViewBinding.textView22.getBackground().setTint(colorsDif[random]);
         holder.searchedCoinViewBinding.setSearchCoin(getItem(position));
         try {
-
-            holder.searchedCoinViewBinding.getRoot().setOnClickListener(v -> adapterClick.onClickItem(getItem(position)));
+            holder.searchedCoinViewBinding.getRoot().setOnClickListener(v -> {
+                adapterClick.onClickItem(getItem(position));
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

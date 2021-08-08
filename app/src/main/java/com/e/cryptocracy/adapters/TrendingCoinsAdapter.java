@@ -1,7 +1,6 @@
 package com.e.cryptocracy.adapters;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.e.apiResponse.TrendingCoinResponse;
-import com.e.cryptocracy.R;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.TrendingCoinViewBinding;
 import com.e.cryptocracy.utility.App;

@@ -22,7 +22,7 @@ public class AppConstant {
     public static final String COINS = "Coins";
     public static final String TOKENS = "Tokens";
     public static final String DEFI = "Defi";
-    public static final String FILESHARING = "Filesharing";
+    public static final String FILE_SHARING = "FileSharing";
     public static final String MARKET_CAP_RANK = "Market Cap Rank";
     public static final String TRADING_VOLUME = "Trading Volume";
     public static final String HIGH_24 = "High 24H";
