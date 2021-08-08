@@ -25,13 +25,13 @@ public class CoinTradingListAdapter extends ListAdapter<CoinTradingModel, AppVie
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-
+        holder.coinTradingMarketViewBinding.setTrading(getItem(position));
     }
 
     public static DiffUtil.ItemCallback<CoinTradingModel> itemCallback = new DiffUtil.ItemCallback<CoinTradingModel>() {
         @Override
         public boolean areItemsTheSame(@NonNull CoinTradingModel oldItem, @NonNull CoinTradingModel newItem) {
-            return oldItem.getDemotext().equalsIgnoreCase(newItem.getDemotext());
+            return oldItem.getCoin_id().equalsIgnoreCase(newItem.getCoin_id());
         }
 
         @SuppressLint("DiffUtilEquals")

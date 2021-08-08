@@ -35,7 +35,6 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     FragmentCoinListBinding binding;
     NavController navController;
     AppViewModal appViewModal;
-
     @Inject
     ViewModelProviderFactory providerFactory;
     CoinAdapter coinAdapter;
@@ -55,7 +54,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         navController = Navigation.findNavController(view);
 
-        coinAdapter = new CoinAdapter();
+        coinAdapter = new CoinAdapter(navController);
         binding.recCoinHome.setAdapter(coinAdapter);
 
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
@@ -69,7 +68,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         receiveBackStackData();
         binding.ivSearch.setOnClickListener(v -> {
-            navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+            navController.navigate(R.id.action_coinListFragment_to_searchCoinsFragment);
         });
 
         binding.setSortClickListener(name -> {
@@ -110,7 +109,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     }
 
     private void listenCoinData(String page) {
-        appViewModal.getAllCoins(page).observe(getViewLifecycleOwner(), coinModals -> {
+        appViewModal.getCoins(page).observe(getViewLifecycleOwner(), coinModals -> {
             coinAdapter.submitList(coinModals);
             if (binding.swiperefresh.isRefreshing())
                 binding.swiperefresh.setRefreshing(false);
@@ -123,7 +122,8 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         String key = (String) obj;
         Bundle bundle = new Bundle();
         bundle.putString(AppConstant.KEY_FILTER, key);
-        if (key.equalsIgnoreCase(getString(R.string.currency)))
+        String currency = AppUtils.getString(AppConstant.CURRENCY, requireActivity());
+        if (key.equalsIgnoreCase(getString(R.string.currency) + "(" + currency + ")"))
             navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
         else
             navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);

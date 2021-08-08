@@ -72,7 +72,8 @@ public class CoinModal {
     }
 
     public double getPrice_change_percentage_24h() {
-        return price_change_percentage_24h;
+        double scale = Math.pow(10, 2);
+        return Math.round(scale * price_change_percentage_24h) / scale;
     }
 
     public void setPrice_change_percentage_24h(double price_change_percentage_24h) {

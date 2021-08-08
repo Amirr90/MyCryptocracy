@@ -10,7 +10,7 @@ public class AppConstant {
     public static final String MARKET_CAP_BY_TOTAL_SUPPLY_STRICT = "Market Cap BY Total Supply Strict";
     public static final String SYMBOL = "Symbol";
     public static final String DATE_ADDED = "Date Added";
-    public static final String CIRCULATION_SUPPLY = "Circulation Supply";
+    public static final String CIRCULATION_SUPPLY = "Circulating Supply";
     public static final String TOTAL_SUPPLY = "Total Supply";
     public static final String MAX_SUPPLY = "Max Supply";
     public static final String NUM_MARKET_PAIR = "Max Market Pair";
@@ -47,4 +47,14 @@ public class AppConstant {
     public static final String SORT_30D = "30 days";
     public static final String SORT_200D = "200 Days";
     public static final String SORT_1Y = "1 Year";
+    public static final String CURRENCY_PRICE_IN_SELECTED = "selectedCurrencyPrice";
+    public static final String COIN_ID = "coinId";
+    public static final String ALL_TIME_LOW_DATE = "All Time Low Date";
+    public static final String MARKETCAP = "Market Cap";
+    public static final String ALL_HIGH_CHANGE_PERCENTAGE = "All Time High Change";
+    public static final String ALL_LOW_CHANGE_PERCENTAGE = "All Time Low Change";
+    public static final String SORT_6MONTH = "6 MONTHS";
+    public static final String SORT_ALL_TIME = "ALL TIME";
+    public static final String SORT_1D = "";
+    public static final String IMAGE = "image";
 }

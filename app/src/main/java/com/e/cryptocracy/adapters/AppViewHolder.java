@@ -8,13 +8,27 @@ import com.e.cryptocracy.databinding.CoinTradingMarketViewBinding;
 import com.e.cryptocracy.databinding.CoinViewBinding;
 import com.e.cryptocracy.databinding.CurrencyViewBinding;
 import com.e.cryptocracy.databinding.FilterViewBinding;
+import com.e.cryptocracy.databinding.SearchedCoinViewBinding;
+import com.e.cryptocracy.databinding.TrendingCoinViewBinding;
 
 public class AppViewHolder extends RecyclerView.ViewHolder {
     public FilterViewBinding filterViewBinding;
     public CoinDetailViewBinding coinDetailViewBinding;
     CurrencyViewBinding currencyViewBinding;
     CoinTradingMarketViewBinding coinTradingMarketViewBinding;
-    CoinViewBinding coinViewBinding;
+    public CoinViewBinding coinViewBinding;
+    TrendingCoinViewBinding trendingCoinViewBinding;
+    SearchedCoinViewBinding searchedCoinViewBinding;
+
+    public AppViewHolder(@NonNull SearchedCoinViewBinding searchedCoinViewBinding) {
+        super(searchedCoinViewBinding.getRoot());
+        this.searchedCoinViewBinding = searchedCoinViewBinding;
+    }
+
+    public AppViewHolder(@NonNull TrendingCoinViewBinding trendingCoinViewBinding) {
+        super(trendingCoinViewBinding.getRoot());
+        this.trendingCoinViewBinding = trendingCoinViewBinding;
+    }
 
     public AppViewHolder(@NonNull CoinViewBinding coinViewBinding) {
         super(coinViewBinding.getRoot());

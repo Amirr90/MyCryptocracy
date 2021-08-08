@@ -22,10 +22,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
+import com.e.cryptocracy.modals.MarketDataModel;
 import com.e.cryptocracy.modals.WelcomeModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,18 +52,62 @@ public class AppUtils {
         return models;
     }
 
-    public static List<FilterModel> getCoinDetailsData() {
+    public static List<FilterModel> getCoinDetailsData(JSONObject market_data, MarketDataModel marketDataModel) throws JSONException {
         List<FilterModel> filterModels = new ArrayList<>();
-        filterModels.add(new FilterModel(AppConstant.MARKET_CAP_RANK, "1"));
-        filterModels.add(new FilterModel(AppConstant.MARKET_CAP, "1"));
-        filterModels.add(new FilterModel(AppConstant.TRADING_VOLUME, "1"));
-        filterModels.add(new FilterModel(AppConstant.HIGH_24, "1"));
-        filterModels.add(new FilterModel(AppConstant.LOW_24, "1"));
-        filterModels.add(new FilterModel(AppConstant.MARKET_CAP_RANK, "1"));
-        filterModels.add(new FilterModel(AppConstant.MARKET_CAP_RANK, "1"));
-        filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH, "1"));
-        filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH_DATE, "1"));
+        String outPattern = "EEE, d MMM yyyy hh:mm aaa";
+        String inPattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        String currency = AppUtils.getString(AppConstant.CURRENCY, App.context).toLowerCase();
+        filterModels.add(new FilterModel(AppConstant.MARKET_CAP_RANK, "" + (Double) market_data.get("market_cap_rank")));
+        filterModels.add(new FilterModel(AppConstant.TRADING_VOLUME, "" + numberFormat(Double.parseDouble("" + market_data.getJSONObject("total_volume").get(currency)))));
+        filterModels.add(new FilterModel(AppConstant.MARKETCAP, "" + numberFormat(Double.parseDouble("" + market_data.getJSONObject("market_cap").get(currency)))));
+
+
+        filterModels.add(new FilterModel(AppConstant.TOTAL_SUPPLY, marketDataModel.getTotal_supply() == null ? "--" : numberFormat(marketDataModel.getTotal_supply())));
+        filterModels.add(new FilterModel(AppConstant.MAX_SUPPLY, marketDataModel.getMax_supply() == null ? "--" : numberFormat(marketDataModel.getMax_supply())));
+        filterModels.add(new FilterModel(AppConstant.CIRCULATION_SUPPLY, marketDataModel.getCirculating_supply() == null ? "--" : numberFormat(marketDataModel.getCirculating_supply())));
+
+
+        filterModels.add(new FilterModel(AppConstant.HIGH_24, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("high_24h").get(currency))));
+        filterModels.add(new FilterModel(AppConstant.LOW_24, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("low_24h").get(currency))));
+
+
+        filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("ath").get(currency))));
+        filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH_DATE, (parseDate((String) market_data.getJSONObject("ath_date").get(currency), outPattern, inPattern))));
+        filterModels.add(new FilterModel(AppConstant.ALL_HIGH_CHANGE_PERCENTAGE, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("ath_change_percentage").get(currency)) + "%"));
+
+
+        filterModels.add(new FilterModel(AppConstant.ALL_TIME_LOW, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("atl").get(currency))));
+        filterModels.add(new FilterModel(AppConstant.ALL_TIME_LOW_DATE, (parseDate((String) market_data.getJSONObject("atl_date").get(currency), outPattern, inPattern))));
+        filterModels.add(new FilterModel(AppConstant.ALL_LOW_CHANGE_PERCENTAGE, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("atl_change_percentage").get(currency)) + "%"));
+
+        // filterModels.add(new FilterModel(AppConstant.ALL_LOW_CHANGE_PERCENTAGE, AppUtils.parseDate((String) market_data.getJSONObject("atl_change_percentage").get(currency), outPattern, inPattern) + "%"));
+
         return filterModels;
+    }
+
+    public static String numberFormat(Double number) {
+        return new DecimalFormat("###,###,###,###").format(number);
+    }
+
+    public static String parseDate(String inDate, String outPattern, String inputPattern) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outPattern);
+
+        Date date;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(inDate);
+            str = outputFormat.format(date);
+            return str;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(TAG, "parseDate: " + e.getLocalizedMessage()
+            );
+            return inDate;
+        }
+
+
     }
 
     public static LayoutInflater getInflater(ViewGroup parent) {
@@ -129,13 +178,13 @@ public class AppUtils {
 
     public static List<String> getGraphFilterKeysList() {
         List<String> strings = new ArrayList<>();
-        strings.add("1 Hour");
-        strings.add("7 Day");
-        strings.add("14 Days");
-        strings.add("1 MONTH");
-        strings.add("6 MONTH");
-        strings.add("1 YEAR");
-        strings.add("ALL TIME");
+        strings.add(AppConstant.SORT_24H);
+        strings.add(AppConstant.SORT_7D);
+        strings.add(AppConstant.SORT_14D);
+        strings.add(AppConstant.SORT_30D);
+        strings.add(AppConstant.SORT_6MONTH);
+        strings.add(AppConstant.SORT_1Y);
+        strings.add(AppConstant.SORT_ALL_TIME);
         return strings;
     }
 
@@ -266,13 +315,15 @@ public class AppUtils {
     }
 
     public static List<String> coinFilterKeys() {
+        String currency = getString(AppConstant.CURRENCY, App.context);
         List<String> list = new ArrayList<>();
-        list.add(App.context.getString(R.string.currency));
+        list.add(App.context.getString(R.string.currency) + "(" + currency + ")");
         list.add(App.context.getString(R.string.price));
         list.add(App.context.getString(R.string.h_1));
         list.add(App.context.getString(R.string.sort_type));
         list.add(App.context.getString(R.string.category));
         return list;
+
     }
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -311,6 +362,7 @@ public class AppUtils {
     }
 
     public static String getCurrencyFormat(String num) {
+        Log.d(TAG, "getCurrencyFormat: " + num);
         String currency = getString(AppConstant.CURRENCY, App.context).toUpperCase();
         String COUNTRY = currency.substring(0, 2);
         String LANGUAGE = "en";

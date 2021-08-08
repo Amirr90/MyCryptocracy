@@ -27,12 +27,34 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_coinListFragment_to_trendingCoinFragment"
+            app:destination="@id/trendingCoinFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fab_close" />
+        <action
+            android:id="@+id/action_coinListFragment_to_searchCoinsFragment"
+            app:destination="@id/searchCoinsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/trendingCoinFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.TrendingCoinFragment"
         android:label="fragment_trending_coin"
-        tools:layout="@layout/fragment_trending_coin" />
+        tools:layout="@layout/fragment_trending_coin" >
+        <action
+            android:id="@+id/action_trendingCoinFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.FavouriteFragment"
@@ -78,4 +100,17 @@
         android:name="com.e.cryptocracy.CoinTwitterFragment"
         android:label="fragment_coin_twitter"
         tools:layout="@layout/fragment_coin_twitter" />
+    <fragment
+        android:id="@+id/searchCoinsFragment"
+        android:name="com.e.cryptocracy.SearchCoinsFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search_coins" >
+        <action
+            android:id="@+id/action_searchCoinsFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 </navigation>

@@ -25,6 +25,7 @@ import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
 import com.e.cryptocracy.views.activity.AppHomeScreen;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,6 +67,7 @@ public class ChangeCurrencyFragment extends DaggerFragment implements onAdapterC
 
         appViewModal.getAllCurrency().observe(getViewLifecycleOwner(), currencyModels -> {
             currencyModelList = currencyModels;
+
             addCurrency(currencyModels);
 
             binding.progressBar3.setVisibility(View.GONE);

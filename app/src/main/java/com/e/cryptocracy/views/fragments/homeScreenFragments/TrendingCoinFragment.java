@@ -1,66 +1,103 @@
 package com.e.cryptocracy.views.fragments.homeScreenFragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.e.cryptocracy.R;
+import com.e.cryptocracy.adapters.TrendingCoinsAdapter;
+import com.e.cryptocracy.apiInterface.onAdapterClick;
+import com.e.cryptocracy.databinding.FragmentTrendingCoinBinding;
+import com.e.cryptocracy.modals.TrendingItem;
+import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUtils;
+import com.e.cryptocracy.viewModal.AppViewModal;
+import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
+import com.e.cryptocracy.views.activity.AppHomeScreen;
+import com.google.gson.Gson;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TrendingCoinFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TrendingCoinFragment extends Fragment {
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import javax.inject.Inject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import dagger.android.support.DaggerFragment;
 
-    public TrendingCoinFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TrendingCoinFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TrendingCoinFragment newInstance(String param1, String param2) {
-        TrendingCoinFragment fragment = new TrendingCoinFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class TrendingCoinFragment extends DaggerFragment implements onAdapterClick {
+
+    NavController navController;
+    AppViewModal appViewModal;
+    @Inject
+    ViewModelProviderFactory providerFactory;
+    TrendingCoinsAdapter trendingCoinsAdapter;
+    FragmentTrendingCoinBinding binding;
+    private static final String TAG = "TrendingCoinFragment";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trending_coin, container, false);
+        binding = FragmentTrendingCoinBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        navController = Navigation.findNavController(view);
+
+        trendingCoinsAdapter = new TrendingCoinsAdapter(this);
+        binding.recTrendingCoins.setAdapter(trendingCoinsAdapter);
+        appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
+
+        fetchTrendingData();
+
+        binding.swiperefresh.setOnRefreshListener(this::fetchTrendingData);
+
+        binding.imageView3.setOnClickListener(AppHomeScreen.getInstance());
+    }
+
+    private void fetchTrendingData() {
+        appViewModal.getExchangeRates().observe(getViewLifecycleOwner(), o -> {
+            Gson gson = new Gson();
+            String json = gson.toJson(o);
+            try {
+                JSONObject mJSONObject = new JSONObject(json);
+                String selectedCurrency = AppUtils.getString(AppConstant.CURRENCY, requireActivity()).toLowerCase();
+                double currencyValue = (Double) mJSONObject.getJSONObject("rates").getJSONObject(selectedCurrency).get("value");
+                AppUtils.setString(AppConstant.CURRENCY_PRICE_IN_SELECTED, "" + currencyValue, requireActivity());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d(TAG, "onChanged: " + e.getLocalizedMessage());
+            }
+
+
+        });
+
+        appViewModal.getTrendingCoins().observe(getViewLifecycleOwner(), trendingCoins -> {
+            trendingCoinsAdapter.submitList(trendingCoins);
+            binding.progressBar2.setVisibility(View.GONE);
+            if (binding.swiperefresh.isRefreshing())
+                binding.swiperefresh.setRefreshing(false);
+        });
+    }
+
+    @Override
+    public void onClickItem(Object obj) {
+        TrendingItem trendingItem = (TrendingItem) obj;
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstant.COIN_ID, trendingItem.getId());
+        bundle.putString(AppConstant.NAME, trendingItem.getName());
+        bundle.putString(AppConstant.SYMBOL, trendingItem.getSymbol());
+        navController.navigate(R.id.action_trendingCoinFragment_to_coinDetailFragment, bundle);
     }
 }
