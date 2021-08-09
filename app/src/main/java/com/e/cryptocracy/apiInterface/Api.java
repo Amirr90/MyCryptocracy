@@ -60,7 +60,7 @@ public interface Api {
     @GET("coins/{coin_id_and_symbol}/twitter")
     Call<Object> getTweetData(@Path("coin_id_and_symbol") String coinIdAndSymbol);
 
-    @GET("api/v3/companies/public_treasury/{id}}")
+    @GET("api/v3/companies/public_treasury/{id}")
     Call<Object> public_treasury(@Path("id") String coinID);
 
 }

@@ -59,6 +59,7 @@ public class ApiRepository {
     MutableLiveData<GraphModel> graphData;
     MutableLiveData<Object> coinExchangeByIdList;
     MutableLiveData<Object> tweetList;
+    MutableLiveData<Object> coinInvestorList;
 
     public LiveData<PagedList<CoinModal>> pagedCoinList;
     LiveData<PageKeyedDataSource<Integer, CoinModal>> pagedItemSource;
@@ -296,6 +297,32 @@ public class ApiRepository {
         return tweetList;
     }
 
+    public LiveData<Object> coinInvestorData(String coinId) {
+
+        if (null == coinInvestorList)
+            coinInvestorList = new MutableLiveData<>();
+
+        api.public_treasury(coinId).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    coinInvestorList.setValue(response.body());
+                } else {
+                    coinInvestorList.setValue("");
+                    Log.d(TAG, "onResponse: error " + response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+            }
+        });
+
+        return coinInvestorList;
+    }
+
 
     public static class InsertDataInToUserTable extends AsyncTask<Void, Void, Void> {
 
@@ -353,6 +380,7 @@ public class ApiRepository {
     private void initGetCategoryData() {
         new InsertDataInToCategoryTable(api, appDao).execute();
     }
+
     public static class InsertDataInToCategoryTable extends AsyncTask<Void, Void, Void> {
         Api api;
         AppDao appDao;

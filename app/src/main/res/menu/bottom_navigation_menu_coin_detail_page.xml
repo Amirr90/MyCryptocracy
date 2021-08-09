@@ -19,4 +19,11 @@
         android:icon="@drawable/ic_twitter"
         android:title="@string/text_label_6"
         android:visible="true" />
+
+    <item
+        android:id="@+id/coinInvestorFragment2"
+        android:enabled="true"
+        android:icon="@drawable/ic_image_invest"
+        android:title="@string/text_label_7"
+        android:visible="true" />
 </menu>

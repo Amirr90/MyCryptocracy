@@ -8,6 +8,7 @@ import com.e.cryptocracy.CoinTradingPlateformFragment;
 import com.e.cryptocracy.CoinTwitterFragment;
 import com.e.cryptocracy.FilterListFragment;
 import com.e.cryptocracy.SearchCoinsFragment;
+import com.e.cryptocracy.coinInvestorFragment;
 import com.e.cryptocracy.views.fragments.homeScreenFragments.CoinListFragment;
 import com.e.cryptocracy.views.fragments.homeScreenFragments.FavouriteFragment;
 import com.e.cryptocracy.views.fragments.homeScreenFragments.TrendingCoinFragment;
@@ -47,4 +48,8 @@ public abstract class MainFragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract SearchCoinsFragment searchCoinsFragment();
+
+
+    @ContributesAndroidInjector
+    abstract coinInvestorFragment coinInvestorFragment();
 }

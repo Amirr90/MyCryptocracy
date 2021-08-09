@@ -70,4 +70,8 @@ public class AppViewModal extends ViewModel {
     public LiveData<Object> coinTweet(String coinSymbol) {
         return apiRepository.tweetData(coinSymbol);
     }
+
+    public LiveData<Object> coinInvestorData(String coinId) {
+        return apiRepository.coinInvestorData(coinId);
+    }
 }

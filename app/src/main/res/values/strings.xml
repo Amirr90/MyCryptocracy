@@ -25,6 +25,9 @@
     <string name="sort_type">OrderBy</string>
     <string name="h_1">1 H</string>
     <string name="hour_sort">sort_by_hour</string>
+    <string name="text_label_7">Investors</string>
+    <string name="coin_not_supported">Coin not supported</string>
+    <string name="no_investors">No Investors found</string>
 
     <!--    Live Ad Id-->
     <!--        <string name="adaptive_banner_ad_unit_id_test">ca-app-pub-5778282166425967/2981756838</string>-->
