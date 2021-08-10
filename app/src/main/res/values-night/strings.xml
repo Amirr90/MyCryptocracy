@@ -22,4 +22,7 @@
     <string name="text_label_7">Investors</string>
     <string name="coin_not_supported">Coin not supported</string>
     <string name="no_investors">No Investors found</string>
+    <string name="long_message">Long msg here</string>
+    <string name="decline">No Thanks</string>
+    <string name="say_something">Say something</string>
 </resources>

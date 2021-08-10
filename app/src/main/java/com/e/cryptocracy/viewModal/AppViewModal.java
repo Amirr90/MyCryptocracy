@@ -1,9 +1,6 @@
 package com.e.cryptocracy.viewModal;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
@@ -33,14 +30,6 @@ public class AppViewModal extends ViewModel {
     @Inject
     public AppViewModal(ApiRepository apiRepository) {
         this.apiRepository = apiRepository;
-    }
-
-
-    public LiveData<PagedList<CoinModal>> getItemPagedList() {
-        return itemPagedList;
-    }
-
-    public void setItemPagedList() {
         ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
         liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
 
@@ -51,7 +40,23 @@ public class AppViewModal extends ViewModel {
                         .build();
 
         itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, config)).build();
+    }
 
+
+
+
+    public void setItemPagedList() {
+
+        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
+        liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
+
+        PagedList.Config config =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setPageSize(ItemDataSource.PAGE_SIZE)
+                        .build();
+
+        itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, config)).build();
     }
 
     public LiveData<List<CoinCategoryModal>> getAllCategory() {
@@ -102,4 +107,14 @@ public class AppViewModal extends ViewModel {
     public void listenPaginatedCoins(String page) {
         apiRepository.listenPaginatedCoins(page);
     }
+
+    public LiveData<List<CoinModal>> fetchFavCoins() {
+        return apiRepository.getFavCoinsList();
+    }
+
+    public void setFavIds(String coinIds) {
+        apiRepository.fetchFavCoins(coinIds);
+    }
+
+
 }

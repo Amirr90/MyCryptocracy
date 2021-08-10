@@ -1,6 +1,7 @@
 package com.e.cryptocracy.views.fragments.homeScreenFragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
@@ -76,26 +76,31 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         });
 
 
-        appViewModal.setItemPagedList();
-        appViewModal.getItemPagedList().observe(getViewLifecycleOwner(), coinModals -> coinAdapter.submitList(coinModals));
+        // appViewModal.setItemPagedList();
+        appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> coinAdapter.submitList(coinModals));
+
 
     }
 
     private void receiveBackStackData() {
-        navController.getCurrentBackStackEntry().getSavedStateHandle().getLiveData(AppConstant.COIN_LIST_FILTER_KEY)
+        navController.getCurrentBackStackEntry().getSavedStateHandle()
+                .getLiveData(AppConstant.COIN_LIST_FILTER_KEY)
                 .observe(getViewLifecycleOwner(), value -> {
+                    Log.d(TAG, "receiveBackStackData: " + value);
                     listenCoinData();
                 });
+
+
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-
         setCoinFilterKeys();
         if (AppUtils.getString(AppConstant.CURRENCY, App.context).contentEquals(""))
             navController.navigate(R.id.action_coinListFragment_to_changeCurrencyFragment);
+
 
     }
 

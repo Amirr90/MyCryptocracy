@@ -10,6 +10,9 @@ import androidx.databinding.DataBindingUtil;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.ActivityMainBinding;
 import com.e.cryptocracy.utility.Animation;
+import com.e.cryptocracy.utility.AppUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -31,12 +34,22 @@ public class SplashScreen extends AppCompatActivity {
         binding.imageView2.setAnimation(Animation.bounce());
 
         handler = new Handler();
-        runnable = () -> {
-            startActivity(new Intent(SplashScreen.this, AppHomeScreen.class));
-            finish();
-        };
+        runnable = this::updateUi;
         handler.postDelayed(runnable, 3000);
 
+    }
+
+    private void updateUi() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (null == user) {
+            //user is not logged In
+            startActivity(new Intent(SplashScreen.this, GettingStarted.class));
+        } else {
+            //user Is logged in
+            AppUtils.updateToken();
+            startActivity(new Intent(SplashScreen.this, AppHomeScreen.class));
+        }
+        finish();
     }
 
     @Override

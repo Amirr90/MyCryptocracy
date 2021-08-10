@@ -26,7 +26,13 @@ import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.modals.MarketDataModel;
 import com.e.cryptocracy.modals.WelcomeModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,8 +42,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -368,8 +376,8 @@ public class AppUtils {
         String currency = getString(AppConstant.CURRENCY, App.context);
         List<String> list = new ArrayList<>();
         list.add(App.context.getString(R.string.currency) + "(" + currency + ")");
-        list.add(App.context.getString(R.string.price));
-        list.add(App.context.getString(R.string.h_1));
+        //list.add(App.context.getString(R.string.price));
+        //list.add(App.context.getString(R.string.h_1));
         list.add(App.context.getString(R.string.sort_type));
         list.add(App.context.getString(R.string.category));
         return list;
@@ -417,5 +425,82 @@ public class AppUtils {
         String COUNTRY = currency.substring(0, 2);
         String LANGUAGE = "en";
         return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
+    }
+
+    public static void updateToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();
+                    Log.d(TAG, token);
+                    updateToServer(token);
+                });
+    }
+
+    private static void updateToServer(String token) {
+        getFireStoreReference().collection(AppConstant.USERS).document(getUid()).update(AppConstant.TOKEN, token);
+        Log.d(TAG, "TokenUpdatedToServer: " + token);
+    }
+
+
+    public static void updateUserInfo(@Nullable FirebaseUser user) {
+        if (null != user) {
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put(AppConstant.EMAIL, user.getEmail() == null ? "" : user.getEmail());
+            userMap.put(AppConstant.CURRENCY, getString(AppConstant.CURRENCY, App.context));
+            userMap.put(AppConstant.TIMESTAMP, System.currentTimeMillis());
+            userMap.put(AppConstant.NAME, user.getDisplayName() == null ? "" : user.getDisplayName());
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).update(userMap)
+                    .addOnSuccessListener(aVoid -> updateToken())
+                    .addOnFailureListener(e -> getFireStoreReference().collection(AppConstant.USERS).document(getUid()).set(userMap).addOnSuccessListener(aVoid -> updateToken()));
+        }
+    }
+
+    public final String getDisplayCountry() {
+        String[] locales = Locale.getISOCountries();
+
+        for (String countryCode : locales) {
+
+            Locale obj = new Locale("", countryCode);
+
+            System.out.println("Country Code = " + obj.getCountry()
+                    + ", Country Name = " + obj.getDisplayCountry());
+
+        }
+        return "";
+    }
+
+    public static FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    @NotNull
+    public static FirebaseFirestore getFireStoreReference() {
+        return FirebaseFirestore.getInstance();
+    }
+
+    @NotNull
+    public static String getUid() {
+        return getCurrentUser().getUid();
+    }
+
+    public static void updateFavCoins(String id, boolean checked, @NotNull UpdateFavouriteCoinsListener updateFavouriteCoinsListener) {
+        if (!isNetworkConnected(App.context)) {
+            AppConstant.showToast("No Internet");
+            return;
+        }
+        Log.d(TAG, "getUid: " + getUid());
+        Log.d(TAG, "checked: " + checked);
+        Log.d(TAG, "id: " + id);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("coinId", id);
+        if (checked)
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).set(map).addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Added !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
+        else
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).delete().addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Removed !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
     }
 }

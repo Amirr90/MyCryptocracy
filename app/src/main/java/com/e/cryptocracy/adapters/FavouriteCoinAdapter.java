@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
-import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.CoinViewBinding;
@@ -17,13 +17,13 @@ import com.e.cryptocracy.utility.AppConstant;
 
 import javax.inject.Inject;
 
-public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
+public class FavouriteCoinAdapter extends ListAdapter<CoinModal, AppViewHolder> {
 
     NavController navController;
     private static final String TAG = "CoinAdapter";
 
     @Inject
-    public CoinAdapter(NavController navController) {
+    public FavouriteCoinAdapter(NavController navController) {
         super(itemCallback);
         this.navController = navController;
     }
@@ -42,6 +42,7 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
         CoinModal coinModal = getItem(position);
         holder.coinViewBinding.setCoin(getItem(position));
+
         if (null != coinModal) {
             double pos = coinModal.getMarket_cap_rank();
             holder.coinViewBinding.setPosition(pos);
@@ -53,7 +54,7 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
                 bundle.putString(AppConstant.COIN_ID, coinModal.getId());
                 bundle.putString(AppConstant.NAME, coinModal.getName());
                 bundle.putString(AppConstant.SYMBOL, coinModal.getSymbol());
-                navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
+                navController.navigate(R.id.action_favouriteFragment_to_coinDetailFragment, bundle);
             }
         });
     }

@@ -3,11 +3,11 @@ package com.e.cryptocracy.modals;
 import java.util.ArrayList;
 
 public class GraphModel {
-    ArrayList<ArrayList<Float>> prices = new ArrayList<ArrayList<Float>>();
-    ArrayList<ArrayList<Float>> market_caps = new ArrayList<ArrayList<Float>>();
-    ArrayList<ArrayList<Float>> total_volumes = new ArrayList<ArrayList<Float>>();
+    Number[][] prices = new Number[][]{};
+    ArrayList<ArrayList<Float>> market_caps = new ArrayList<>();
+    ArrayList<ArrayList<Float>> total_volumes = new ArrayList<>();
 
-    public ArrayList<ArrayList<Float>> getPrices() {
+    public Number[][] getPrices() {
         return prices;
     }
 

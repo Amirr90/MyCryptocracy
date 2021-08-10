@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 
 public interface Api {
 
-    @GET("/api/v3/coins/markets?per_page=20&sparkline=false")
+    @GET("/api/v3/coins/markets?per_page=100&sparkline=false")
     Call<List<CoinModal>> getAllLatestCoins(
             @Query("page") String page,
             @Query("vs_currency") String convert,
@@ -63,6 +63,11 @@ public interface Api {
     @GET("api/v3/companies/public_treasury/{id}")
     Call<Object> public_treasury(@Path("id") String coinID);
 
+    @GET("/api/v3/coins/markets?per_page=100&sparkline=false&page=1")
+    Call<List<CoinModal>> allFavCoins(
+            @Query("ids") String ids,
+            @Query("vs_currency") String convert
+    );
 }
 
 

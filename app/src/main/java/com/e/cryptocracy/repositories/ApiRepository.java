@@ -59,6 +59,7 @@ public class ApiRepository {
 
 
     MutableLiveData<List<CoinModal>> paginatedCoinList = new MutableLiveData<>();
+    MutableLiveData<List<CoinModal>> favCoinsList = new MutableLiveData<>();
     public LiveData<PagedList<CoinModal>> pagedCoinList;
 
     @Inject
@@ -71,6 +72,12 @@ public class ApiRepository {
 
     }
 
+
+    public MutableLiveData<List<CoinModal>> getFavCoinsList() {
+        if (null == favCoinsList)
+            favCoinsList = new MutableLiveData<>();
+        return favCoinsList;
+    }
 
     public MutableLiveData<List<CoinModal>> getPaginatedCoinsList(String page) {
         return paginatedCoinList;
@@ -334,6 +341,28 @@ public class ApiRepository {
         });
 
         return coinInvestorList;
+    }
+
+    public void fetchFavCoins(String coinIds) {
+        String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
+
+        api.allFavCoins(coinIds, currency)
+                .enqueue(new Callback<List<CoinModal>>() {
+                    @Override
+                    public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
+                        AppUtils.hideDialog();
+                        if (response.code() == 200 && response.body() != null) {
+                            favCoinsList.setValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
+                        AppUtils.hideDialog();
+                        Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                    }
+                });
+
     }
 
 

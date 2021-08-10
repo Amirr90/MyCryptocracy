@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="position"
+            type="Double" />
+
         <import type="com.e.cryptocracy.R" />
 
         <import type="com.e.cryptocracy.utility.AppUtils" />
@@ -102,6 +106,23 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/rubik"
+            android:maxLines="1"
+            android:text="@{AppUtils.numberFormat(position)+`.`,default=`1.`}"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/material_on_surface_disabled"
+            android:textColorHighlight="@color/black_light"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+            app:layout_constraintEnd_toStartOf="@+id/profile_image"
+            app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
         <TextView
             android:id="@+id/textView9"

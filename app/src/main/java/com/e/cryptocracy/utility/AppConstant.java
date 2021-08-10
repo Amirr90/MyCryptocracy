@@ -1,5 +1,9 @@
 package com.e.cryptocracy.utility;
 
+import android.widget.Toast;
+
+import org.jetbrains.annotations.NotNull;
+
 public class AppConstant {
     public static final String KEY_FILTER = "filterKey";
     public static final String ASCENDING = "Ascending";
@@ -57,4 +61,14 @@ public class AppConstant {
     public static final String SORT_ALL_TIME = "ALL TIME";
     public static final String SORT_1D = "";
     public static final String IMAGE = "image";
+    public static final String EMAIL = "email";
+    public static final String TIMESTAMP = "timestamp";
+    @NotNull
+    public static final String USERS = "users";
+    public static final String TOKEN = "token";
+    public static final String FAVOURITE = "Favourite";
+
+    public static void showToast(String no_internet) {
+        Toast.makeText(App.context, no_internet, Toast.LENGTH_SHORT).show();
+    }
 }

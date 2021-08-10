@@ -29,7 +29,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
     private static final String TAG = "ItemDataSource";
     public static final int PAGE_SIZE = 50;
-    private static final int FIRST_PAGE = 1;
+    private static int FIRST_PAGE = 1;
     Api api;
 
     String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
@@ -59,7 +59,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, CoinModal> callback) {
 
 
-        Log.d(TAG, "loadInitial: ");
+        Log.d(TAG, "loadInitial: " + params);
         api.getAllLatestCoins(String.valueOf(FIRST_PAGE), currency,
                 category.isEmpty() ? null : category,
                 orderBy.isEmpty() ? "market_cap_desc" : orderBy)
@@ -85,8 +85,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, CoinModal> callback) {
 
-        Log.d(TAG, "loadBefore: ");
-        api.getAllLatestCoins(String.valueOf(FIRST_PAGE), currency,
+        Log.d(TAG, "loadBefore: " + params.key);
+        api.getAllLatestCoins(String.valueOf(params.key), currency,
                 category.isEmpty() ? null : category,
                 orderBy.isEmpty() ? "market_cap_desc" : orderBy)
                 .enqueue(new Callback<List<CoinModal>>() {
@@ -110,8 +110,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, CoinModal> callback) {
-        Log.d(TAG, "loadAfter: ");
-        api.getAllLatestCoins(String.valueOf(FIRST_PAGE), currency,
+        Log.d(TAG, "loadAfter: " + params.key);
+        api.getAllLatestCoins(String.valueOf(params.key), currency,
                 category.isEmpty() ? null : category,
                 orderBy.isEmpty() ? "market_cap_desc" : orderBy)
                 .enqueue(new Callback<List<CoinModal>>() {

@@ -8,13 +8,13 @@ import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUrl;
 import com.e.cryptocracy.utility.AppUtils;
-import com.highsoft.highcharts.common.hichartsclasses.HICSSObject;
 import com.highsoft.highcharts.common.hichartsclasses.HIExporting;
+import com.highsoft.highcharts.common.hichartsclasses.HILabels;
 import com.highsoft.highcharts.common.hichartsclasses.HILine;
-import com.highsoft.highcharts.common.hichartsclasses.HINavigation;
 import com.highsoft.highcharts.common.hichartsclasses.HIOptions;
 import com.highsoft.highcharts.common.hichartsclasses.HIPlotOptions;
 import com.highsoft.highcharts.common.hichartsclasses.HITitle;
+import com.highsoft.highcharts.common.hichartsclasses.HIXAxis;
 import com.highsoft.highcharts.common.hichartsclasses.HIYAxis;
 
 import java.util.ArrayList;
@@ -85,7 +85,16 @@ public class AppModule {
     @Singleton
     @Provides
     HIOptions provideHIOptions(HIPlotOptions plotOptions, HIExporting hiExporting) {
+
         HIOptions options = new HIOptions();
+        HIXAxis xAxis = new HIXAxis();
+        xAxis.setType("datetime");
+        xAxis.setLabels(new HILabels());
+        xAxis.getLabels().setOverflow("justify");
+        options.setXAxis(new ArrayList<HIXAxis>() {{
+            add(xAxis);
+        }});
+
         final HIYAxis yAxis = new HIYAxis();
         yAxis.setTitle(new HITitle());
         options.setYAxis(new ArrayList<HIYAxis>() {{
@@ -98,22 +107,13 @@ public class AppModule {
         yAxis.setAlternateGridColor(null);
 
 
-        HITitle title = new HITitle();
-        title.setText("");
-        options.setTitle(title);
-
-
-        HINavigation navigation = new HINavigation();
-        navigation.setMenuItemStyle(new HICSSObject());
-        navigation.getMenuItemStyle().setFontSize("10px");
-        options.setNavigation(navigation);
-
         plotOptions.setLine(new HILine());
         plotOptions.getLine().setEnableMouseTracking(true);
         options.setPlotOptions(plotOptions);
         hiExporting.setEnabled(false);
         options.setExporting(hiExporting);
         return options;
+
     }
 
 

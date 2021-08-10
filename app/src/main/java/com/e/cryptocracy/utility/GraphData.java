@@ -1,6 +1,5 @@
 package com.e.cryptocracy.utility;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -64,19 +63,45 @@ public class GraphData extends GraphVariable implements onAdapterClick {
     }
 
     private void setGraphData(GraphModel graphData) {
-        HISpline series1 = new HISpline();
-        series1.setName(binding.tvName.getText().toString());
-        Number[] series1_data = new Number[graphData.getPrices().size()];
-        for (int a = 0; a < graphData.getPrices().size(); a++) {
-            series1_data[a] = graphData.getPrices().get(a).get(1);
-        }
-        series1.setData(new ArrayList<>(Arrays.asList(series1_data)));
+        String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
+        chartView.setOptions(options);
 
+        HITitle hiTitle = new HITitle();
+        hiTitle.setText("");
+        options.setTitle(hiTitle);
+
+
+        //setting price in graph
+        HITooltip tooltip = new HITooltip();
+        tooltip.setValueSuffix(currency);
+        options.setTooltip(tooltip);
+
+        HIPlotOptions plotOptions = new HIPlotOptions();
+        plotOptions.setSpline(new HISpline());
+        plotOptions.getSpline().setLineWidth(2);
+        plotOptions.getSpline().setStates(new HIStates());
+        plotOptions.getSpline().getStates().setHover(new HIHover());
+        plotOptions.getSpline().getStates().getHover().setLineWidth(2);
+        plotOptions.getSpline().setMarker(new HIMarker());
+        plotOptions.getSpline().getMarker().setEnabled(false);
+        options.setPlotOptions(plotOptions);
+
+
+        HISpline series1 = new HISpline();
+        series1.setName(coinId.toUpperCase());
+
+        Number[][] areaData = graphData.getPrices();
+
+        series1.setData(new ArrayList<>(Arrays.asList(areaData)));
+
+
+        HINavigation navigation = new HINavigation();
+        navigation.setMenuItemStyle(new HICSSObject());
+        navigation.getMenuItemStyle().setFontSize("10px");
+        options.setNavigation(navigation);
 
         options.setSeries(new ArrayList<>(Arrays.asList(series1)));
-
         chartView.setOptions(options);
-        Log.d(TAG, "addData: ");
     }
 
 
