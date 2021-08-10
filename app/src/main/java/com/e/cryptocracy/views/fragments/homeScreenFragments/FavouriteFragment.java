@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.e.cryptocracy.databinding.FragmentFavouriteBinding;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
-import com.e.pagingSource.PagingAdapter;
 
 import javax.inject.Inject;
 
@@ -38,23 +37,7 @@ public class FavouriteFragment extends DaggerFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        PagingAdapter pagingAdapter = new PagingAdapter();
-        binding.recCoinHome.setAdapter(pagingAdapter);
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
 
-
-     /*   appViewModal.getFavCoins().observe(getViewLifecycleOwner(), coinModals -> {
-            pagingAdapter.submitList(coinModals);
-            Log.d(TAG, "onViewCreated: " + coinModals.toString());
-
-        });*/
-
-        /*appViewModal.getAllCoins("1").observe(getViewLifecycleOwner(), new Observer<List<CoinModal>>() {
-            @Override
-            public void onChanged(List<CoinModal> coinModals) {
-                Log.d(TAG, "onChanged: "+coinModals.size());
-            }
-        });*/
     }
 }

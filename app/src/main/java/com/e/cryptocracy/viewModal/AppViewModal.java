@@ -1,7 +1,12 @@
 package com.e.cryptocracy.viewModal;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
 import com.e.apiResponse.TrendingCoinResponse;
@@ -21,17 +26,36 @@ public class AppViewModal extends ViewModel {
 
     @Inject
     ApiRepository apiRepository;
+    public LiveData<PagedList<CoinModal>> itemPagedList;
+    LiveData<PageKeyedDataSource<Integer, CoinModal>> liveDataSource;
+
 
     @Inject
     public AppViewModal(ApiRepository apiRepository) {
         this.apiRepository = apiRepository;
     }
 
-    public LiveData<List<CoinModal>> getCoins(String page) {
-        return apiRepository.getCoins(page);
+
+    public LiveData<PagedList<CoinModal>> getItemPagedList() {
+        return itemPagedList;
+    }
+
+    public void setItemPagedList() {
+        ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
+        liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
+
+        PagedList.Config config =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setPageSize(ItemDataSource.PAGE_SIZE)
+                        .build();
+
+        itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, config)).build();
+
     }
 
     public LiveData<List<CoinCategoryModal>> getAllCategory() {
+
         return apiRepository.getAllCoinsCategory();
     }
 
@@ -73,5 +97,9 @@ public class AppViewModal extends ViewModel {
 
     public LiveData<Object> coinInvestorData(String coinId) {
         return apiRepository.coinInvestorData(coinId);
+    }
+
+    public void listenPaginatedCoins(String page) {
+        apiRepository.listenPaginatedCoins(page);
     }
 }

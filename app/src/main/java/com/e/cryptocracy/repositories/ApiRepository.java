@@ -6,8 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
 import com.e.apiResponse.CurrencyResponse;
@@ -24,7 +22,6 @@ import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUrl;
 import com.e.cryptocracy.utility.AppUtils;
-import com.e.pagingSource.ItemDataFactory;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +38,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.e.pagingSource.ItemDataSource.PAGE_SIZE;
 
 @Singleton
 public class ApiRepository {
@@ -61,32 +57,49 @@ public class ApiRepository {
     MutableLiveData<Object> tweetList;
     MutableLiveData<Object> coinInvestorList;
 
+
+    MutableLiveData<List<CoinModal>> paginatedCoinList = new MutableLiveData<>();
     public LiveData<PagedList<CoinModal>> pagedCoinList;
-    LiveData<PageKeyedDataSource<Integer, CoinModal>> pagedItemSource;
 
     @Inject
     public ApiRepository(Api api, OkHttpClient.Builder builder) {
         this.api = api;
         this.builder = builder;
         appDao = AppDatabase.getDatabase(App.context).getAppDao();
-
         userList = appDao.getCoins();
         categoryList = appDao.getAllCategory();
 
-        ItemDataFactory itemDataSource = new ItemDataFactory(api);
-        pagedItemSource = itemDataSource.getLiveData();
-
-
-        PagedList.Config config = (new PagedList.Config.Builder())
-                .setEnablePlaceholders(false)
-                .setPageSize(PAGE_SIZE)
-                .build();
-
-        Log.d(TAG, "ApiRepository: ");
-
-        pagedCoinList = (new LivePagedListBuilder(itemDataSource, config).build());
     }
 
+
+    public MutableLiveData<List<CoinModal>> getPaginatedCoinsList(String page) {
+        return paginatedCoinList;
+    }
+
+    public void listenPaginatedCoins(String page) {
+        String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
+        String category = AppUtils.getString(AppConstant.CATEGORY, App.context);
+        String orderBy = AppUtils.getString(AppConstant.ORDER_BY, App.context);
+
+        api.getAllLatestCoins(page, currency,
+                category.isEmpty() ? null : category,
+                orderBy.isEmpty() ? "market_cap_desc" : orderBy)
+                .enqueue(new Callback<List<CoinModal>>() {
+                    @Override
+                    public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
+                        AppUtils.hideDialog();
+                        if (response.code() == 200 && response.body() != null) {
+                            paginatedCoinList.setValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
+                        AppUtils.hideDialog();
+                        Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+                    }
+                });
+    }
 
     public LiveData<List<CoinModal>> getCoins(String page) {
         initGetUserApi(page);
@@ -347,6 +360,7 @@ public class ApiRepository {
                     .enqueue(new Callback<List<CoinModal>>() {
                         @Override
                         public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
+                            AppUtils.hideDialog();
                             if (response.isSuccessful() && response.body() != null) {
                                 appDao.deleteCoins();
                                 List<CoinModal> coinModals = response.body();
@@ -362,6 +376,7 @@ public class ApiRepository {
 
                         @Override
                         public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
+                            AppUtils.hideDialog();
                             Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
                         }
                     });

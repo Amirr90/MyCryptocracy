@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.CoinViewBinding;
@@ -17,9 +17,10 @@ import com.e.cryptocracy.utility.AppConstant;
 
 import javax.inject.Inject;
 
-public class CoinAdapter extends ListAdapter<CoinModal, AppViewHolder> {
+public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
     NavController navController;
+    private static final String TAG = "CoinAdapter";
 
     @Inject
     public CoinAdapter(NavController navController) {
@@ -39,15 +40,20 @@ public class CoinAdapter extends ListAdapter<CoinModal, AppViewHolder> {
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
 
 
+        CoinModal coinModal = getItem(position);
         holder.coinViewBinding.setCoin(getItem(position));
         holder.coinViewBinding.getRoot().setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(AppConstant.COIN_ID, getItem(position).getId());
-            bundle.putString(AppConstant.NAME, getItem(position).getName());
-            bundle.putString(AppConstant.SYMBOL, getItem(position).getSymbol());
-            navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
+
+            if (null != coinModal) {
+                Bundle bundle = new Bundle();
+                bundle.putString(AppConstant.COIN_ID, coinModal.getId());
+                bundle.putString(AppConstant.NAME, coinModal.getName());
+                bundle.putString(AppConstant.SYMBOL, coinModal.getSymbol());
+                navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
+            }
         });
     }
+
 
     public static DiffUtil.ItemCallback<CoinModal> itemCallback = new DiffUtil.ItemCallback<CoinModal>() {
         @Override

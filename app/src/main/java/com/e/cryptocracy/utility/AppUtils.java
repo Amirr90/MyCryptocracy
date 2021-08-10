@@ -2,8 +2,10 @@ package com.e.cryptocracy.utility;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
@@ -43,6 +45,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class AppUtils {
     private static final String TAG = "AppUtils";
     private static final String MY_PREFS_NAME = "my_prefs";
+    static ProgressDialog progressDialog;
 
     public static List<WelcomeModel> getWelcomeList() {
         List<WelcomeModel> models = new ArrayList<>();
@@ -112,6 +115,53 @@ public class AppUtils {
 
     public static LayoutInflater getInflater(ViewGroup parent) {
         return LayoutInflater.from(parent.getContext());
+    }
+
+
+    public static void showRequestDialog(Activity activity) {
+
+        //Log.d("Token-Number", AppSettings.getString(AppSettings.token));
+
+        try {
+            if (!((Activity) activity).isFinishing()) {
+                progressDialog = ProgressDialog.show(activity, null, null, false, true);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(android.R.color.transparent)));
+                progressDialog.setContentView(R.layout.progress_bar);
+                progressDialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void showRequestDialog(Context activity) {
+
+        try {
+            if (!((Activity) activity).isFinishing()) {
+                progressDialog = ProgressDialog.show(activity, null, null, false, true);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(android.R.color.transparent)));
+                progressDialog.setContentView(R.layout.progress_bar);
+                progressDialog.show();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+
+    public static void hideDialog() {
+        try {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<FilterModel> getFilterList(String type, FragmentFilterListBinding binding) {

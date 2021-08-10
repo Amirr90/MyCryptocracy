@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
@@ -38,7 +39,6 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     @Inject
     ViewModelProviderFactory providerFactory;
     CoinAdapter coinAdapter;
-    String page = "1";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -46,6 +46,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         binding = FragmentCoinListBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,13 +59,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         binding.recCoinHome.setAdapter(coinAdapter);
 
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
-       /* binding.recCoinHome.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                // binding.constraintLayout.setVisibility(newState == 0 ? View.VISIBLE : View.GONE);
-            }
-        });*/
+
 
         receiveBackStackData();
         binding.ivSearch.setOnClickListener(v -> {
@@ -80,14 +75,16 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
                 navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
         });
 
-        listenCoinData(page = "1");
-        binding.swiperefresh.setOnRefreshListener(() -> listenCoinData(page = "1"));
+
+        appViewModal.setItemPagedList();
+        appViewModal.getItemPagedList().observe(getViewLifecycleOwner(), coinModals -> coinAdapter.submitList(coinModals));
+
     }
 
     private void receiveBackStackData() {
         navController.getCurrentBackStackEntry().getSavedStateHandle().getLiveData(AppConstant.COIN_LIST_FILTER_KEY)
                 .observe(getViewLifecycleOwner(), value -> {
-                    listenCoinData(page = "1");
+                    listenCoinData();
                 });
     }
 
@@ -108,13 +105,8 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         binding.recFilter.setAdapter(new GraphFilterKeysAdapter(AppUtils.coinFilterKeys(), this));
     }
 
-    private void listenCoinData(String page) {
-        appViewModal.getCoins(page).observe(getViewLifecycleOwner(), coinModals -> {
-            coinAdapter.submitList(coinModals);
-            if (binding.swiperefresh.isRefreshing())
-                binding.swiperefresh.setRefreshing(false);
-        });
-
+    private void listenCoinData() {
+        appViewModal.setItemPagedList();
     }
 
     @Override
