@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.TrendingCoinsAdapter;
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentTrendingCoinBinding;
 import com.e.cryptocracy.modals.TrendingItem;
@@ -42,6 +43,7 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
     FragmentTrendingCoinBinding binding;
     private static final String TAG = "TrendingCoinFragment";
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-
+        new AdMob(requireActivity(), binding.adViewContainer);
         trendingCoinsAdapter = new TrendingCoinsAdapter(this);
         binding.recTrendingCoins.setAdapter(trendingCoinsAdapter);
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);

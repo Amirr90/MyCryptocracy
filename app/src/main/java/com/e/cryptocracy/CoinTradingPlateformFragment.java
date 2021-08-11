@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +19,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.e.cryptocracy.adapters.CoinTradingListAdapter;
+import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentCoinTradingPlateformBinding;
 import com.e.cryptocracy.modals.CoinTradingModel;
+import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
@@ -36,7 +41,7 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 
 
-public class CoinTradingPlateformFragment extends BottomSheetDialogFragment {
+public class CoinTradingPlateformFragment extends BottomSheetDialogFragment implements onAdapterClick {
     private static final String TAG = "CoinTradingPlateformFra";
 
     FragmentCoinTradingPlateformBinding binding;
@@ -68,7 +73,7 @@ public class CoinTradingPlateformFragment extends BottomSheetDialogFragment {
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
 
 
-        adapter = new CoinTradingListAdapter();
+        adapter = new CoinTradingListAdapter(this);
         binding.recCoinTradingMarket.addItemDecoration(new
                 DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL));
@@ -111,5 +116,18 @@ public class CoinTradingPlateformFragment extends BottomSheetDialogFragment {
 
         });
 
+    }
+
+    @Override
+    public void onClickItem(Object obj) {
+        String tradeUrl = (String) obj;
+        Log.d(TAG, "onClickItem: " + tradeUrl);
+        if (tradeUrl == null)
+            Toast.makeText(App.context, "No trade Url !!", Toast.LENGTH_SHORT).show();
+        else {
+            WebView theWebPage = new WebView(requireActivity());
+            theWebPage.getSettings().setPluginState(WebSettings.PluginState.ON);
+            theWebPage.loadUrl(tradeUrl);
+        }
     }
 }

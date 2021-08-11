@@ -21,7 +21,7 @@ public class PagerAdapterGettingStarted extends FragmentPagerAdapter {
         return NUM_ITEMS;
     }
 
-    // Returns the fragment to display for that page
+
     @NonNull
     @Override
     public Fragment getItem(int position) {

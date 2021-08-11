@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
 import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
 import com.e.cryptocracy.utility.App;
@@ -61,6 +62,8 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
 
 
+        new AdMob(requireActivity(), binding.adViewContainer);
+
         receiveBackStackData();
         binding.ivSearch.setOnClickListener(v -> {
             navController.navigate(R.id.action_coinListFragment_to_searchCoinsFragment);
@@ -77,7 +80,10 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
 
         // appViewModal.setItemPagedList();
-        appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> coinAdapter.submitList(coinModals));
+        appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> {
+            binding.progressBar11.setVisibility(View.GONE);
+            coinAdapter.submitList(coinModals);
+        });
 
 
     }

@@ -41,7 +41,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:loadCoinImage="@{coin.large}"
-            android:src="@drawable/bitcoin"
+            android:src="@drawable/app_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 

@@ -1,19 +1,24 @@
 package com.e.cryptocracy.adapters;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
+import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.CoinTradingMarketViewBinding;
 import com.e.cryptocracy.modals.CoinTradingModel;
 import com.e.cryptocracy.utility.AppUtils;
 
 public class CoinTradingListAdapter extends ListAdapter<CoinTradingModel, AppViewHolder> {
-    public CoinTradingListAdapter() {
+    onAdapterClick onAdapterClick;
+
+    public CoinTradingListAdapter(onAdapterClick onAdapterClick) {
         super(itemCallback);
+        this.onAdapterClick = onAdapterClick;
     }
 
     @NonNull
@@ -25,7 +30,11 @@ public class CoinTradingListAdapter extends ListAdapter<CoinTradingModel, AppVie
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
+        CoinTradingModel coinTradingModel = getItem(position);
         holder.coinTradingMarketViewBinding.setTrading(getItem(position));
+        holder.coinTradingMarketViewBinding.getRoot().setOnClickListener(v ->
+                onAdapterClick.onClickItem(coinTradingModel.getTrade_url()));
+
     }
 
     public static DiffUtil.ItemCallback<CoinTradingModel> itemCallback = new DiffUtil.ItemCallback<CoinTradingModel>() {

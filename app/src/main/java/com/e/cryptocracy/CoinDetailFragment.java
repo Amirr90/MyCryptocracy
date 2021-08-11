@@ -1,7 +1,6 @@
 package com.e.cryptocracy;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.databinding.FragmentCoinDetailBinding;
 import com.e.cryptocracy.module.Management;
 import com.e.cryptocracy.utility.App;
@@ -68,6 +68,8 @@ public class CoinDetailFragment extends DaggerFragment {
         if (getArguments() == null)
             navController.navigateUp();
 
+        new AdMob(requireActivity(), binding.adViewContainer);
+        new AdMob(requireActivity(), binding.adViewContainer2);
         coinId = getArguments().getString(AppConstant.COIN_ID);
         symbol = getArguments().getString(AppConstant.SYMBOL);
         coinName = getArguments().getString(AppConstant.NAME);

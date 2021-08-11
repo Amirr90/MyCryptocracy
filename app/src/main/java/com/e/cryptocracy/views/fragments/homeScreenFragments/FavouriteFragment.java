@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 
 import com.e.cryptocracy.adapters.FavouriteCoinAdapter;
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.databinding.FragmentFavouriteBinding;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
@@ -52,6 +53,9 @@ public class FavouriteFragment extends DaggerFragment {
         adapter = new FavouriteCoinAdapter(Navigation.findNavController(view));
         binding.recCoinHome.setItemAnimator(new DefaultItemAnimator());
         binding.recCoinHome.setAdapter(adapter);
+
+        new AdMob(requireActivity(), binding.adViewContainer);
+
         loadFavCoinsData();
 
 

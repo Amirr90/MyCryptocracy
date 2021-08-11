@@ -19,7 +19,7 @@ public class CustomLoadImage {
                 Glide.with(App.context)
                         .load(imagePath)
                         .centerCrop()
-                        .placeholder(R.drawable.bitcoin)
+                        .placeholder(R.drawable.app_icon)
                         .into(imageView);
 
             } catch (Exception e) {

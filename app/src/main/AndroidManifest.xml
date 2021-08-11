@@ -10,11 +10,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCryptocracy">
-        <activity
-            android:name=".views.activity.AppHomeScreen" />
+        <activity android:name=".views.activity.WebViewTrade"></activity>
+        <activity android:name=".views.activity.AppHomeScreen" />
         <activity
             android:name=".views.activity.GettingStarted"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+
+        <service
+            android:name=".firebaseMessage.FirebaseMessageService"
+            android:directBootAware="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".views.activity.SplashScreen"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
@@ -27,8 +37,7 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-        <!-- Live Meta data -->
+            android:resource="@array/preloaded_fonts" /> <!-- Live Meta data -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5778282166425967~4351577276" />

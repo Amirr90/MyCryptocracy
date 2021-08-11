@@ -58,8 +58,8 @@ public class AppUtils {
     public static List<WelcomeModel> getWelcomeList() {
         List<WelcomeModel> models = new ArrayList<>();
         models.add(new WelcomeModel("Welcome to", App.context.getString(R.string.app_name), "Cryptocracy is the best app to track Bitcoin, Ethereum, Ripple  other CryptoCurrency"));
-        models.add(new WelcomeModel("text 2", App.context.getString(R.string.app_name), "subText2"));
-        models.add(new WelcomeModel("text 3", App.context.getString(R.string.app_name), "subText3"));
+        models.add(new WelcomeModel("Tracks", App.context.getString(R.string.app_name), "every seconds crypto around the world !!"));
+        models.add(new WelcomeModel("50+", App.context.getString(R.string.app_name), "Currency support to track coins !!"));
         return models;
     }
 
@@ -440,7 +440,7 @@ public class AppUtils {
                 });
     }
 
-    private static void updateToServer(String token) {
+    public static void updateToServer(String token) {
         getFireStoreReference().collection(AppConstant.USERS).document(getUid()).update(AppConstant.TOKEN, token);
         Log.d(TAG, "TokenUpdatedToServer: " + token);
     }

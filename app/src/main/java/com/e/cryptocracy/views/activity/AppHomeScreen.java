@@ -12,8 +12,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.e.cryptocracy.OnBackButtonClickListener;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.ActivityAppHomeScreenBinding;
+import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.utility.BottomNavigationListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -54,6 +56,8 @@ public class AppHomeScreen extends DaggerAppCompatActivity implements OnBackButt
         });
 
 
+        if (AppUtils.getString(AppConstant.TOPIC_PRICE_ALERT, this).isEmpty())
+            FirebaseMessaging.getInstance().subscribeToTopic("priceAlert").addOnSuccessListener(aVoid -> AppUtils.setString(AppConstant.TOPIC_PRICE_ALERT, "yes", AppHomeScreen.this));
     }
 
 
