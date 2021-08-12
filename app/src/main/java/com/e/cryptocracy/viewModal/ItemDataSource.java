@@ -11,7 +11,6 @@ import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUrl;
 import com.e.cryptocracy.utility.AppUtils;
-import com.e.cryptocracy.views.fragments.homeScreenFragments.CoinListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +58,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, CoinModal> callback) {
 
+
         Log.d(TAG, "loadInitial: " + params);
         api.getAllLatestCoins(String.valueOf(FIRST_PAGE), currency,
                 category.isEmpty() ? null : category,
@@ -84,8 +84,6 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, CoinModal> callback) {
-
-
         Log.d(TAG, "loadBefore: " + params.key);
         api.getAllLatestCoins(String.valueOf(params.key), currency,
                 category.isEmpty() ? null : category,
@@ -94,7 +92,6 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
                         AppUtils.hideDialog();
-
                         if (response.code() == 200 && response.body() != null) {
                             Integer key = (params.key > 1) ? params.key - 1 : null;
                             callback.onResult(response.body(), key);
@@ -113,6 +110,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, CoinModal> callback) {
+        AppUtils.showRequestDialog(App.context);
         Log.d(TAG, "loadAfter: " + params.key);
         api.getAllLatestCoins(String.valueOf(params.key), currency,
                 category.isEmpty() ? null : category,

@@ -78,14 +78,15 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
                 navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
         });
 
+        AppUtils.showRequestDialog(App.context);
 
         // appViewModal.setItemPagedList();
         appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> {
             binding.progressBar11.setVisibility(View.GONE);
             coinAdapter.submitList(coinModals);
+            AppUtils.hideDialog();
         });
 
-        appViewModal.loadingState.observe(getViewLifecycleOwner(), isLoading -> binding.progressBar11.setVisibility(isLoading ? View.VISIBLE : View.GONE));
 
 
     }
