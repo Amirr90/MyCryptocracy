@@ -406,10 +406,20 @@ public class AppUtils {
 
 
     public static String getCurrencyFormat(double num) {
+
         String currency = getString(AppConstant.CURRENCY, App.context).toUpperCase();
         String COUNTRY = currency.substring(0, 2);
         String LANGUAGE = "en";
-        return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(num);
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY));
+        numberFormat.setMaximumFractionDigits(9);
+        numberFormat.format(num);
+        return numberFormat.format(num);
+
+
+
+       /* return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY))
+                .setMaximumFractionDigits(5)
+                .format(num);*/
     }
 
     public static String getCurrencyFormat(long num) {

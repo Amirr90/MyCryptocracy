@@ -145,12 +145,16 @@ public class CoinDetailFragment extends DaggerFragment {
     public void onStart() {
         super.onStart();
         binding.bottomNavCoinDetail.setOnNavigationItemSelectedListener(item -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(AppConstant.COIN_ID, coinId);
-            bundle.putString(AppConstant.NAME, binding.tvName.getText().toString());
-            bundle.putString(AppConstant.SYMBOL, binding.tvSymbol.getText().toString());
-            bundle.putString(AppConstant.IMAGE, null == image ? "" : image);
-            navController.navigate(item.getItemId(), bundle);
+            if (item.getItemId() == R.id.coinNewsFragment || item.getItemId() == R.id.coinTwitterFragment)
+                Toast.makeText(App.context, "Coming Soon", Toast.LENGTH_SHORT).show();
+            else {
+                Bundle bundle = new Bundle();
+                bundle.putString(AppConstant.COIN_ID, coinId);
+                bundle.putString(AppConstant.NAME, binding.tvName.getText().toString());
+                bundle.putString(AppConstant.SYMBOL, binding.tvSymbol.getText().toString());
+                bundle.putString(AppConstant.IMAGE, null == image ? "" : image);
+                navController.navigate(item.getItemId(), bundle);
+            }
             return true;
         });
     }

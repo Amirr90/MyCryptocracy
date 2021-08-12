@@ -56,10 +56,19 @@ public class FavouriteFragment extends DaggerFragment {
 
         new AdMob(requireActivity(), binding.adViewContainer);
 
+
+        appViewModal.fetchFavCoins().observe(getViewLifecycleOwner(), coinModals -> {
+            binding.progressBar10.setVisibility(View.GONE);
+            adapter.submitList(coinModals);
+        });
+
         loadFavCoinsData();
 
 
         binding.imageView3.setOnClickListener(AppHomeScreen.getInstance());
+
+
+        binding.swiperefreshFav.setOnRefreshListener(() -> loadFavCoinsData());
     }
 
 
@@ -78,13 +87,11 @@ public class FavouriteFragment extends DaggerFragment {
                 }
                 Log.d(TAG, "onSuccess: " + builder.toString());
                 appViewModal.setFavIds(builder.toString());
+                if (binding.swiperefreshFav.isRefreshing())
+                    binding.swiperefreshFav.setRefreshing(false);
             }
         });
 
-        appViewModal.fetchFavCoins().observe(getViewLifecycleOwner(), coinModals -> {
-            binding.progressBar10.setVisibility(View.GONE);
-            adapter.submitList(coinModals);
-        });
     }
 
 }

@@ -85,6 +85,8 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
             coinAdapter.submitList(coinModals);
         });
 
+        appViewModal.loadingState.observe(getViewLifecycleOwner(), isLoading -> binding.progressBar11.setVisibility(isLoading ? View.VISIBLE : View.GONE));
+
 
     }
 

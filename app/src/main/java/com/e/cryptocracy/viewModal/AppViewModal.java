@@ -1,6 +1,7 @@
 package com.e.cryptocracy.viewModal;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
@@ -20,6 +21,7 @@ import javax.inject.Inject;
 
 public class AppViewModal extends ViewModel {
     private static final String TAG = "AppViewModal";
+    public MutableLiveData<Boolean> loadingState = new MutableLiveData<>();
 
     @Inject
     ApiRepository apiRepository;
@@ -43,7 +45,9 @@ public class AppViewModal extends ViewModel {
     }
 
 
-
+    public void setLoadingState(boolean loadingState) {
+        this.loadingState.setValue(loadingState);
+    }
 
     public void setItemPagedList() {
 
