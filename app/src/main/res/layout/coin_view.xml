@@ -23,8 +23,8 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="10dp">
+        android:paddingHorizontal="15dp"
+        android:paddingTop="10sp">
 
         <TextView
             android:id="@+id/textView5"
@@ -82,7 +82,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:background="#C3BFBF"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +100,7 @@
             android:maxLines="3"
             android:text="@{coin.symbol,default=`AAMMBPTWBTCWETH`}"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/material_on_surface_disabled"
             android:textColorHighlight="@color/black_light"
             android:textStyle="bold"
