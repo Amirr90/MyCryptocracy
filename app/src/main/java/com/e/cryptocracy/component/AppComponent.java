@@ -20,8 +20,6 @@ import dagger.android.support.DaggerApplication;
 )
 
 public interface AppComponent extends AndroidInjector<App> {
-
-   // void inject(SplashScreen screen);
     @Component.Builder
     interface Builder {
         @BindsInstance
