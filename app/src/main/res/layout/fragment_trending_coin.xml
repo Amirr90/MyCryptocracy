@@ -84,6 +84,26 @@
             tools:listitem="@layout/trending_coin_view" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/noTrendingCoinsLay"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adCardView1">
+
+        <Button
+            android:id="@+id/noTrendingCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Trending Coins"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progressBar2"

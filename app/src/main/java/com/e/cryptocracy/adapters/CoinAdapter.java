@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -13,7 +14,16 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.CoinViewBinding;
 import com.e.cryptocracy.modals.CoinModal;
+import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
+import com.e.cryptocracy.utility.AppUtils;
+import com.e.cryptocracy.utility.UpdateFavouriteCoinsListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,11 +31,19 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
     NavController navController;
     private static final String TAG = "CoinAdapter";
+    List<String> favCoins = new ArrayList<>();
+
 
     @Inject
     public CoinAdapter(NavController navController) {
         super(itemCallback);
         this.navController = navController;
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> contactList = gson.fromJson(AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context), type);
+        favCoins.addAll(contactList);
+
     }
 
     @NonNull
@@ -42,6 +60,9 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
         CoinModal coinModal = getItem(position);
         holder.coinViewBinding.setCoin(getItem(position));
+
+        holder.coinViewBinding.checkBox.setChecked(favCoins.contains(coinModal.getId()));
+
         if (null != coinModal) {
             double pos = coinModal.getMarket_cap_rank();
             holder.coinViewBinding.setPosition(pos);
@@ -56,6 +77,10 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
                 navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
             }
         });
+
+        holder.coinViewBinding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinModal.getId(), holder.coinViewBinding.checkBox.isChecked(), favouriteCoinsListener));
+
+
     }
 
 
@@ -69,6 +94,19 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
         @Override
         public boolean areContentsTheSame(@NonNull CoinModal oldItem, @NonNull CoinModal newItem) {
             return oldItem.equals(newItem);
+        }
+    };
+
+    UpdateFavouriteCoinsListener favouriteCoinsListener = new UpdateFavouriteCoinsListener() {
+        @Override
+        public void onSuccess(Object obj) {
+            Toast.makeText(App.context, (String) obj, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFailed(String msg) {
+            Toast.makeText(App.context, msg, Toast.LENGTH_SHORT).show();
+
         }
     };
 }

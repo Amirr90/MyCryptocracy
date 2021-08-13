@@ -509,8 +509,8 @@ public class AppUtils {
         Map<String, Object> map = new HashMap<>();
         map.put("coinId", id);
         if (checked)
-            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).set(map).addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Added !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).set(map).addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Added as favourite !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
         else
-            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).delete().addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Removed !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).delete().addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Removed from favourite !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
     }
 }
