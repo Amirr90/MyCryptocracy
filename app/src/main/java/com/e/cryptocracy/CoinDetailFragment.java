@@ -127,7 +127,6 @@ public class CoinDetailFragment extends DaggerFragment {
                 .document(AppUtils.getUid())
                 .collection(AppConstant.FAVOURITE);
 
-
         FavRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                 for (int a = 0; a < queryDocumentSnapshots.size(); a++) {

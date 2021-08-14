@@ -59,7 +59,7 @@
         android:id="@+id/favouriteFragment"
         android:name="com.e.cryptocracy.views.fragments.homeScreenFragments.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" >
+        tools:layout="@layout/fragment_favourite">
         <action
             android:id="@+id/action_favouriteFragment_to_coinDetailFragment"
             app:destination="@id/coinDetailFragment"
@@ -67,6 +67,14 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_coinListFragment"
+            app:destination="@id/coinListFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/app_home_nav" />
     </fragment>
     <dialog
         android:id="@+id/filterListFragment"

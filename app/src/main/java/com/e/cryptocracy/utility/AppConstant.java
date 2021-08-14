@@ -76,6 +76,7 @@ public class AppConstant {
     public static final String NOTIFICATION_TYPE = "notificationType";
     public static final String TOPIC_PRICE_ALERT = "priceAlert";
     public static final String TRADE_URL = "tradeUrl";
+    public static final String FAVOURITE_COINS = "favCoins";
 
     public static void showToast(String no_internet) {
         Toast.makeText(App.context, no_internet, Toast.LENGTH_SHORT).show();

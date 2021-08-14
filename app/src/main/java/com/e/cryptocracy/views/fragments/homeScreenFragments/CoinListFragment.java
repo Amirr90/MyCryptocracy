@@ -89,6 +89,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
 
 
+
     }
 
     private void receiveBackStackData() {

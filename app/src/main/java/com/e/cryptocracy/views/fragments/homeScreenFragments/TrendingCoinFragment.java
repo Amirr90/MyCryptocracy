@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentTrendingCoinBinding;
 import com.e.cryptocracy.modals.TrendingItem;
+import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.viewModal.AppViewModal;
@@ -66,6 +68,8 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
         binding.swiperefresh.setOnRefreshListener(this::fetchTrendingData);
 
         binding.imageView3.setOnClickListener(AppHomeScreen.getInstance());
+
+        binding.noTrendingCoins.setOnClickListener(v -> navController.navigate(R.id.coinListFragment));
     }
 
     private void fetchTrendingData() {
@@ -88,8 +92,14 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
         appViewModal.getTrendingCoins().observe(getViewLifecycleOwner(), trendingCoins -> {
             trendingCoinsAdapter.submitList(trendingCoins);
             binding.progressBar2.setVisibility(View.GONE);
-            if (binding.swiperefresh.isRefreshing())
+
+            if (binding.swiperefresh.isRefreshing()) {
                 binding.swiperefresh.setRefreshing(false);
+                Toast.makeText(App.context, "Refreshed", Toast.LENGTH_SHORT).show();
+            }
+
+            binding.noTrendingCoinsLay.setVisibility(trendingCoins.isEmpty() ? View.GONE : View.VISIBLE);
+            binding.recTrendingCoins.setVisibility(trendingCoins.isEmpty() ? View.VISIBLE : View.GONE);
         });
     }
 
