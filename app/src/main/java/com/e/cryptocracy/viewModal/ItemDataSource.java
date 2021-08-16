@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.paging.PageKeyedDataSource;
 
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.apiInterface.Api;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.utility.App;
@@ -110,7 +111,6 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, CoinModal> callback) {
-        AppUtils.showRequestDialog(App.context);
         Log.d(TAG, "loadAfter: " + params.key);
         api.getAllLatestCoins(String.valueOf(params.key), currency,
                 category.isEmpty() ? null : category,

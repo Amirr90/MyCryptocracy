@@ -30,19 +30,10 @@ import javax.inject.Inject;
 public class FavouriteCoinAdapter extends ListAdapter<CoinModal, AppViewHolder> {
 
     NavController navController;
-    private static final String TAG = "CoinAdapter";
-    List<String> favCoins = new ArrayList<>();
-
     @Inject
     public FavouriteCoinAdapter(NavController navController) {
         super(itemCallback);
         this.navController = navController;
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {
-        }.getType();
-        List<String> contactList = gson.fromJson(AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context), type);
-        favCoins.addAll(contactList);
     }
 
     @NonNull

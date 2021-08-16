@@ -61,8 +61,8 @@ public class FavouriteFragment extends DaggerFragment {
 
         navController = Navigation.findNavController(view);
         adapter = new FavouriteCoinAdapter(Navigation.findNavController(view));
-        binding.recCoinHome.setItemAnimator(new DefaultItemAnimator());
-        binding.recCoinHome.setAdapter(adapter);
+        binding.recCoinFavHome.setItemAnimator(new DefaultItemAnimator());
+        binding.recCoinFavHome.setAdapter(adapter);
 
         new AdMob(requireActivity(), binding.adViewContainer);
 
@@ -98,10 +98,8 @@ public class FavouriteFragment extends DaggerFragment {
                 Toast.makeText(App.context, "Refreshed", Toast.LENGTH_SHORT).show();
             }
 
-
-            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+            if (queryDocumentSnapshots != null) {
                 StringBuilder builder = new StringBuilder();
-                //get All fav Coins Ids using FireStore
                 List<String> favList = new ArrayList<>();
                 for (int a = 0; a < queryDocumentSnapshots.size(); a++) {
                     builder.append(queryDocumentSnapshots.getDocuments().get(a).getId()).append(",");
@@ -112,14 +110,21 @@ public class FavouriteFragment extends DaggerFragment {
                 Gson gson = new Gson();
                 String list = gson.toJson(favList);
                 AppUtils.setString(AppConstant.FAVOURITE_COINS, list, requireActivity());
-
                 Log.d(TAG, "onSuccess: " + builder.toString());
-                appViewModal.setFavIds(builder.toString());
+                if (!builder.toString().isEmpty()) {
+                    appViewModal.setFavIds(builder.toString());
+                } else {
+                    binding.progressBar10.setVisibility(View.GONE);
+                    appViewModal.setFavIds("0");
+                }
 
+                binding.noCoinsLay.setVisibility(queryDocumentSnapshots.isEmpty() ? View.VISIBLE : View.GONE);
+            } else {
+                binding.noCoinsLay.setVisibility(View.GONE);
+                binding.progressBar10.setVisibility(View.GONE);
             }
 
 
-            binding.noCoinsLay.setVisibility(queryDocumentSnapshots.isEmpty() ? View.VISIBLE : View.GONE);
         });
 
     }
