@@ -2,6 +2,7 @@ package com.e.cryptocracy.adapters;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -38,11 +39,14 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
     public CoinAdapter(NavController navController) {
         super(itemCallback);
         this.navController = navController;
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<String>>() {
-        }.getType();
-        List<String> contactList = gson.fromJson(AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context), type);
-        favCoins.addAll(contactList);
+        String fav = AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context);
+        if (!fav.isEmpty()) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<String>>() {
+            }.getType();
+            List<String> contactList = gson.fromJson(AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context), type);
+            favCoins.addAll(contactList);
+        } else Log.d(TAG, "CoinAdapter: " + fav);
 
     }
 
@@ -59,26 +63,29 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
 
         CoinModal coinModal = getItem(position);
-        holder.coinViewBinding.setCoin(getItem(position));
-
-        holder.coinViewBinding.checkBox.setChecked(favCoins.contains(coinModal.getId()));
-
         if (null != coinModal) {
             double pos = coinModal.getMarket_cap_rank();
             holder.coinViewBinding.setPosition(pos);
-        }
-        holder.coinViewBinding.getRoot().setOnClickListener(v -> {
 
-            if (null != coinModal) {
+
+            holder.coinViewBinding.setCoin(getItem(position));
+
+            holder.coinViewBinding.checkBox.setChecked(favCoins.contains(coinModal.getId()));
+
+
+            holder.coinViewBinding.getRoot().setOnClickListener(v -> {
+
                 Bundle bundle = new Bundle();
                 bundle.putString(AppConstant.COIN_ID, coinModal.getId());
                 bundle.putString(AppConstant.NAME, coinModal.getName());
                 bundle.putString(AppConstant.SYMBOL, coinModal.getSymbol());
                 navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
-            }
-        });
+            });
 
-        holder.coinViewBinding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinModal.getId(), holder.coinViewBinding.checkBox.isChecked(), favouriteCoinsListener));
+            holder.coinViewBinding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinModal.getId(), holder.coinViewBinding.checkBox.isChecked(), favouriteCoinsListener));
+
+
+        }
 
 
     }

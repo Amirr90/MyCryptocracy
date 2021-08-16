@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -19,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.e.cryptocracy.R;
@@ -26,6 +28,8 @@ import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
 import com.e.cryptocracy.modals.MarketDataModel;
 import com.e.cryptocracy.modals.WelcomeModel;
+import com.e.cryptocracy.views.activity.GettingStarted;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,6 +53,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class AppUtils {
     private static final String TAG = "AppUtils";
@@ -415,11 +420,6 @@ public class AppUtils {
         numberFormat.format(num);
         return numberFormat.format(num);
 
-
-
-       /* return NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY))
-                .setMaximumFractionDigits(5)
-                .format(num);*/
     }
 
     public static String getCurrencyFormat(long num) {
@@ -451,8 +451,10 @@ public class AppUtils {
     }
 
     public static void updateToServer(String token) {
-        getFireStoreReference().collection(AppConstant.USERS).document(getUid()).update(AppConstant.TOKEN, token);
-        Log.d(TAG, "TokenUpdatedToServer: " + token);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).update(AppConstant.TOKEN, token);
+            Log.d(TAG, "TokenUpdatedToServer: " + token);
+        }
     }
 
 
@@ -467,6 +469,18 @@ public class AppUtils {
                     .addOnSuccessListener(aVoid -> updateToken())
                     .addOnFailureListener(e -> getFireStoreReference().collection(AppConstant.USERS).document(getUid()).set(userMap).addOnSuccessListener(aVoid -> updateToken()));
         }
+    }
+
+    public static void logout(FragmentActivity fragmentActivity) {
+        showRequestDialog(App.context);
+        AuthUI.getInstance()
+                .delete(App.context)
+                .addOnCompleteListener(task -> {
+                    App.context.startActivity(new Intent(fragmentActivity, GettingStarted.class)
+                            .setFlags(FLAG_ACTIVITY_NEW_TASK));
+                    fragmentActivity.finish();
+                    hideDialog();
+                });
     }
 
     public final String getDisplayCountry() {
@@ -494,7 +508,9 @@ public class AppUtils {
 
     @NotNull
     public static String getUid() {
-        return getCurrentUser().getUid();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            return getCurrentUser().getUid();
+        else return "";
     }
 
     public static void updateFavCoins(String id, boolean checked, @NotNull UpdateFavouriteCoinsListener updateFavouriteCoinsListener) {

@@ -21,6 +21,15 @@ public class CoinModal {
     private long market_cap_rank;
     private double high_24h;
     private double low_24h;
+    Boolean addView;
+
+    public Boolean getAddView() {
+        return addView;
+    }
+
+    public void setAddView(Boolean addView) {
+        this.addView = addView;
+    }
 
     @NotNull
     public String getId() {
