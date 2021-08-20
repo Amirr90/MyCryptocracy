@@ -14,6 +14,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:padding="10dp"
+        android:visibility="gone"
         android:src="@drawable/ic_baseline_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +55,7 @@
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
         <FrameLayout
             android:id="@+id/ad_view_container"
@@ -86,6 +87,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/noTrendingCoinsLay"
+        android:elevation="10dp"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

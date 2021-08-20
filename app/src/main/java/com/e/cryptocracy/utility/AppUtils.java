@@ -89,12 +89,12 @@ public class AppUtils {
 
         filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("ath").get(currency))));
         filterModels.add(new FilterModel(AppConstant.ALL_TIME_HIGH_DATE, (parseDate((String) market_data.getJSONObject("ath_date").get(currency), outPattern, inPattern))));
-        filterModels.add(new FilterModel(AppConstant.ALL_HIGH_CHANGE_PERCENTAGE, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("ath_change_percentage").get(currency)) + "%"));
+        filterModels.add(new FilterModel(AppConstant.ALL_HIGH_CHANGE_PERCENTAGE, AppUtils.numberFormat((Double) market_data.getJSONObject("ath_change_percentage").get(currency)) + "%"));
 
 
         filterModels.add(new FilterModel(AppConstant.ALL_TIME_LOW, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("atl").get(currency))));
         filterModels.add(new FilterModel(AppConstant.ALL_TIME_LOW_DATE, (parseDate((String) market_data.getJSONObject("atl_date").get(currency), outPattern, inPattern))));
-        filterModels.add(new FilterModel(AppConstant.ALL_LOW_CHANGE_PERCENTAGE, AppUtils.getCurrencyFormat((Double) market_data.getJSONObject("atl_change_percentage").get(currency)) + "%"));
+        filterModels.add(new FilterModel(AppConstant.ALL_LOW_CHANGE_PERCENTAGE, AppUtils.numberFormat((Double) market_data.getJSONObject("atl_change_percentage").get(currency)) + "%"));
 
         // filterModels.add(new FilterModel(AppConstant.ALL_LOW_CHANGE_PERCENTAGE, AppUtils.parseDate((String) market_data.getJSONObject("atl_change_percentage").get(currency), outPattern, inPattern) + "%"));
 

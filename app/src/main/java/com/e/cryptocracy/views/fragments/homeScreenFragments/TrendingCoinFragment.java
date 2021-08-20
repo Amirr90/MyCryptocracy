@@ -92,14 +92,15 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
         appViewModal.getTrendingCoins().observe(getViewLifecycleOwner(), trendingCoins -> {
             trendingCoinsAdapter.submitList(trendingCoins);
             binding.progressBar2.setVisibility(View.GONE);
+            Log.d(TAG, "fetchTrendingData: " + trendingCoins.size());
 
             if (binding.swiperefresh.isRefreshing()) {
                 binding.swiperefresh.setRefreshing(false);
                 Toast.makeText(App.context, "Refreshed", Toast.LENGTH_SHORT).show();
             }
 
-            binding.noTrendingCoinsLay.setVisibility(trendingCoins.isEmpty() ? View.GONE : View.VISIBLE);
-            binding.recTrendingCoins.setVisibility(trendingCoins.isEmpty() ? View.VISIBLE : View.GONE);
+            binding.noTrendingCoinsLay.setVisibility(trendingCoins.isEmpty() ? View.VISIBLE : View.GONE);
+            binding.recTrendingCoins.setVisibility(trendingCoins.isEmpty() ? View.GONE : View.VISIBLE);
         });
     }
 

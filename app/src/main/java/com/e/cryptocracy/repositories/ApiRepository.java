@@ -160,6 +160,7 @@ public class ApiRepository {
                         if (null != coins && !coins.isEmpty())
                             trendingList.setValue(coins);
                         else {
+                            trendingList.setValue(coins);
                             Log.d(TAG, "onResponse: getAllLatestCoins " + response.message());
                         }
                     }
