@@ -41,10 +41,11 @@ public class SearchCoinAdapter extends ListAdapter<SearchedCoinModal, AppViewHol
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         final int random = new Random().nextInt((colorsDif.length - 1) + 1);
         holder.searchedCoinViewBinding.textView22.getBackground().setTint(colorsDif[random]);
-        holder.searchedCoinViewBinding.setSearchCoin(getItem(position));
+        SearchedCoinModal item = getItem(position);
+        holder.searchedCoinViewBinding.setSearchCoin(item);
         try {
             holder.searchedCoinViewBinding.getRoot().setOnClickListener(v -> {
-                adapterClick.onClickItem(getItem(position));
+                adapterClick.onClickItem(item);
             });
 
         } catch (Exception e) {

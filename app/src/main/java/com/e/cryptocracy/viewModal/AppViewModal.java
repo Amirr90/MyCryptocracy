@@ -28,12 +28,15 @@ public class AppViewModal extends ViewModel {
     public LiveData<PagedList<CoinModal>> itemPagedList;
     LiveData<PageKeyedDataSource<Integer, CoinModal>> liveDataSource;
 
+    LiveData<Boolean> isLoading;
+
 
     @Inject
     public AppViewModal(ApiRepository apiRepository) {
         this.apiRepository = apiRepository;
         ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
         liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
+        isLoading = itemDataSourceFactory.getLoadingState();
 
         PagedList.Config config =
                 (new PagedList.Config.Builder())
@@ -121,4 +124,7 @@ public class AppViewModal extends ViewModel {
     }
 
 
+    public LiveData<Boolean> loadingObserver() {
+        return apiRepository.loadingObserver();
+    }
 }

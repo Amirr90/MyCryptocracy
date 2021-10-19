@@ -70,6 +70,7 @@ public class CoinDetailFragment extends DaggerFragment {
 
         new AdMob(requireActivity(), binding.adViewContainer);
         new AdMob(requireActivity(), binding.adViewContainer2);
+
         coinId = getArguments().getString(AppConstant.COIN_ID);
         symbol = getArguments().getString(AppConstant.SYMBOL);
         coinName = getArguments().getString(AppConstant.NAME);
@@ -115,7 +116,7 @@ public class CoinDetailFragment extends DaggerFragment {
         });
 
 
-        binding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinId, binding.checkBox.isChecked(), favouriteCoinsListener));
+        binding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinId, binding.checkBox.isChecked(), favouriteCoinsListener, v));
 
 
         updateFavCoins();
@@ -161,14 +162,13 @@ public class CoinDetailFragment extends DaggerFragment {
 
     UpdateFavouriteCoinsListener favouriteCoinsListener = new UpdateFavouriteCoinsListener() {
         @Override
-        public void onSuccess(Object obj) {
-            Toast.makeText(App.context, (String) obj, Toast.LENGTH_SHORT).show();
+        public void onSuccess(Object obj, View view) {
+            AppUtils.showSnackbar((String) obj, view);
         }
 
         @Override
-        public void onFailed(String msg) {
-            Toast.makeText(App.context, msg, Toast.LENGTH_SHORT).show();
-
+        public void onFailed(String msg, View view) {
+            AppUtils.showSnackbar(msg, view);
         }
     };
 

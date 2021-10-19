@@ -64,7 +64,7 @@ public class FavouriteFragment extends DaggerFragment {
         binding.recCoinFavHome.setItemAnimator(new DefaultItemAnimator());
         binding.recCoinFavHome.setAdapter(adapter);
 
-        new AdMob(requireActivity(), binding.adViewContainer);
+        //new AdMob(requireActivity(), binding.adViewContainer);
 
 
         appViewModal.fetchFavCoins().observe(getViewLifecycleOwner(), coinModals -> {

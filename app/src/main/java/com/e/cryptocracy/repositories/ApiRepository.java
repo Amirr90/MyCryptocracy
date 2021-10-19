@@ -60,6 +60,7 @@ public class ApiRepository {
 
     MutableLiveData<List<CoinModal>> paginatedCoinList = new MutableLiveData<>();
     MutableLiveData<List<CoinModal>> favCoinsList = new MutableLiveData<>();
+    MutableLiveData<Boolean> loading = new MutableLiveData<>();
     public LiveData<PagedList<CoinModal>> pagedCoinList;
 
     @Inject
@@ -364,6 +365,10 @@ public class ApiRepository {
                     }
                 });
 
+    }
+
+    public LiveData<Boolean> loadingObserver() {
+        return loading;
     }
 
 

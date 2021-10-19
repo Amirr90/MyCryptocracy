@@ -1,5 +1,7 @@
 package com.e.cryptocracy.adapters;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +11,7 @@ import com.e.cryptocracy.databinding.CoinViewBinding;
 import com.e.cryptocracy.databinding.CurrencyViewBinding;
 import com.e.cryptocracy.databinding.FilterViewBinding;
 import com.e.cryptocracy.databinding.InvestorViewBinding;
+import com.e.cryptocracy.databinding.ItemAddViewBinding;
 import com.e.cryptocracy.databinding.SearchedCoinViewBinding;
 import com.e.cryptocracy.databinding.TrendingCoinViewBinding;
 
@@ -21,6 +24,12 @@ public class AppViewHolder extends RecyclerView.ViewHolder {
     TrendingCoinViewBinding trendingCoinViewBinding;
     SearchedCoinViewBinding searchedCoinViewBinding;
     InvestorViewBinding investorViewBinding;
+    ItemAddViewBinding itemAddViewBinding;
+
+    public AppViewHolder(@NonNull ItemAddViewBinding itemAddViewBinding) {
+        super(itemAddViewBinding.getRoot());
+        this.itemAddViewBinding = itemAddViewBinding;
+    }
 
     public AppViewHolder(@NonNull InvestorViewBinding investorViewBinding) {
         super(investorViewBinding.getRoot());

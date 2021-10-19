@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,13 +14,18 @@ import androidx.navigation.NavController;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
+import com.e.cryptocracy.OnBackButtonClickListener;
 import com.e.cryptocracy.R;
+import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.databinding.CoinViewBinding;
+import com.e.cryptocracy.databinding.ItemAddViewBinding;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.utility.UpdateFavouriteCoinsListener;
+import com.e.cryptocracy.views.activity.AppHomeScreen;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +37,8 @@ import javax.inject.Inject;
 
 public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
+    public static final int ITEM_COIN_VIEW = 1;
+    public static final int ITEM_ADD_VIEW = 2;
     NavController navController;
     private static final String TAG = "CoinAdapter";
     List<String> favCoins = new ArrayList<>();
@@ -54,40 +63,53 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
     @Override
     public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        CoinViewBinding coinViewBinding = CoinViewBinding.inflate(layoutInflater, parent, false);
-        return new AppViewHolder(coinViewBinding);
+
+        if (viewType == ITEM_COIN_VIEW) {
+            CoinViewBinding coinViewBinding = CoinViewBinding.inflate(layoutInflater, parent, false);
+            return new AppViewHolder(coinViewBinding);
+        } else {
+            ItemAddViewBinding itemAddViewBinding = ItemAddViewBinding.inflate(layoutInflater, parent, false);
+            return new AppViewHolder(itemAddViewBinding);
+        }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
+        if (holder.getItemViewType() == ITEM_COIN_VIEW) {
+            CoinModal coinModal = getItem(position);
+            if (null != coinModal) {
+                double pos = coinModal.getMarket_cap_rank();
+                holder.coinViewBinding.setPosition(pos);
 
 
-        CoinModal coinModal = getItem(position);
-        if (null != coinModal) {
-            double pos = coinModal.getMarket_cap_rank();
-            holder.coinViewBinding.setPosition(pos);
+                holder.coinViewBinding.setCoin(getItem(position));
+
+                holder.coinViewBinding.checkBox.setChecked(favCoins.contains(coinModal.getId()));
 
 
-            holder.coinViewBinding.setCoin(getItem(position));
+                holder.coinViewBinding.getRoot().setOnClickListener(v -> {
 
-            holder.coinViewBinding.checkBox.setChecked(favCoins.contains(coinModal.getId()));
+                    Bundle bundle = new Bundle();
+                    bundle.putString(AppConstant.COIN_ID, coinModal.getId());
+                    bundle.putString(AppConstant.NAME, coinModal.getName());
+                    bundle.putString(AppConstant.SYMBOL, coinModal.getSymbol());
+                    navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
+                });
 
-
-            holder.coinViewBinding.getRoot().setOnClickListener(v -> {
-
-                Bundle bundle = new Bundle();
-                bundle.putString(AppConstant.COIN_ID, coinModal.getId());
-                bundle.putString(AppConstant.NAME, coinModal.getName());
-                bundle.putString(AppConstant.SYMBOL, coinModal.getSymbol());
-                navController.navigate(R.id.action_coinListFragment_to_coinDetailFragment, bundle);
-            });
-
-            holder.coinViewBinding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinModal.getId(), holder.coinViewBinding.checkBox.isChecked(), favouriteCoinsListener));
+                holder.coinViewBinding.checkBox.setOnClickListener(v -> AppUtils.updateFavCoins(coinModal.getId(), holder.coinViewBinding.checkBox.isChecked(), favouriteCoinsListener, v));
 
 
+            }
+        } else {
+            setupAdd(holder);
         }
 
 
+    }
+
+    private void setupAdd(AppViewHolder holder) {
+        new AdMob(AppHomeScreen.getInstance(), holder.itemAddViewBinding.adViewContainer);
     }
 
 
@@ -106,14 +128,25 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
 
     UpdateFavouriteCoinsListener favouriteCoinsListener = new UpdateFavouriteCoinsListener() {
         @Override
-        public void onSuccess(Object obj) {
+        public void onSuccess(Object obj, View view) {
+            // AppUtils.showSnackbar((String) obj, view);
             Toast.makeText(App.context, (String) obj, Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onFailed(String msg) {
+        public void onFailed(String msg, View view) {
+            // AppUtils.showSnackbar(msg, view);
             Toast.makeText(App.context, msg, Toast.LENGTH_SHORT).show();
+
 
         }
     };
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position % 13 == 0)
+            return ITEM_ADD_VIEW;
+        else return ITEM_COIN_VIEW;
+
+    }
 }

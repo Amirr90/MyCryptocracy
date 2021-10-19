@@ -40,9 +40,10 @@ public class CurrencyAdapter extends ListAdapter<CurrencyModel, AppViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
         final int random = new Random().nextInt((colorsDif.length - 1) + 1);
-        holder.currencyViewBinding.setCurrency(getItem(position));
+        CurrencyModel model = getItem(position);
+        holder.currencyViewBinding.setCurrency(model);
         holder.currencyViewBinding.textView22.getBackground().setTint(colorsDif[random]);
-        holder.currencyViewBinding.getRoot().setOnClickListener(v -> adapterClick.onClickItem(getItem(position).getSymbol()));
+        holder.currencyViewBinding.getRoot().setOnClickListener(v -> adapterClick.onClickItem(model.getSymbol()));
     }
 
     public static DiffUtil.ItemCallback<CurrencyModel> itemCallback = new DiffUtil.ItemCallback<CurrencyModel>() {
@@ -57,37 +58,5 @@ public class CurrencyAdapter extends ListAdapter<CurrencyModel, AppViewHolder> {
             return oldItem.equals(newItem);
         }
     };
-    /*List<CurrencyModel> currencyModels;
 
-    int[] colorsDif = App.context.getResources().getIntArray(R.array.ingr_color_arr);
-    public CurrencyAdapter(List<CurrencyModel> currencyModels) {
-        this.currencyModels = currencyModels;
-    }
-
-    @NonNull
-    @Override
-    public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CurrencyViewBinding currencyViewBinding = CurrencyViewBinding.inflate(AppUtils.getInflater(parent), parent, false);
-        return new AppViewHolder(currencyViewBinding);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        final int random = new Random().nextInt((colorsDif.length - 1) + 1);
-        holder.currencyViewBinding.setCurrency(currencyModels.get(position));
-        holder.currencyViewBinding.textView22.getBackground().setTint(colorsDif[random]);
-    }
-
-    @Override
-    public int getItemCount() {
-        return null == currencyModels ? 0 : currencyModels.size();
-    }
-
-    public void addItem(List<CurrencyModel> modelList) {
-        if (null == currencyModels)
-            currencyModels = new ArrayList<>();
-        currencyModels.addAll(modelList);
-        notifyDataSetChanged();
-    }*/
 }

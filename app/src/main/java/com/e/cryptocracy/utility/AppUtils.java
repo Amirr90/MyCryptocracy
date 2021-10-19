@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.e.cryptocracy.OnBackButtonClickListener;
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.databinding.FragmentFilterListBinding;
 import com.e.cryptocracy.modals.FilterModel;
@@ -30,6 +31,7 @@ import com.e.cryptocracy.modals.MarketDataModel;
 import com.e.cryptocracy.modals.WelcomeModel;
 import com.e.cryptocracy.views.activity.GettingStarted;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -483,6 +485,15 @@ public class AppUtils {
                 });
     }
 
+    public static void showSnackbar(String obj, View view) {
+        Snackbar.make(view, (String) obj, Snackbar.LENGTH_LONG)
+                .setAction("CLOSE", (OnBackButtonClickListener) v -> {
+                })
+                .setActionTextColor(App.context.getResources().getColor(android.R.color.holo_red_light))
+                .show();
+
+    }
+
     public final String getDisplayCountry() {
         String[] locales = Locale.getISOCountries();
 
@@ -513,7 +524,7 @@ public class AppUtils {
         else return "";
     }
 
-    public static void updateFavCoins(String id, boolean checked, @NotNull UpdateFavouriteCoinsListener updateFavouriteCoinsListener) {
+    public static void updateFavCoins(String id, boolean checked, @NotNull UpdateFavouriteCoinsListener updateFavouriteCoinsListener, View v) {
         if (!isNetworkConnected(App.context)) {
             AppConstant.showToast("No Internet");
             return;
@@ -525,8 +536,8 @@ public class AppUtils {
         Map<String, Object> map = new HashMap<>();
         map.put("coinId", id);
         if (checked)
-            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).set(map).addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Added as favourite !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).set(map).addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Added as favourite !!", v)).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage(), v));
         else
-            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).delete().addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Removed from favourite !!")).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage()));
+            getFireStoreReference().collection(AppConstant.USERS).document(getUid()).collection(AppConstant.FAVOURITE).document(id).delete().addOnSuccessListener(obj -> updateFavouriteCoinsListener.onSuccess("Removed from favourite !!", v)).addOnFailureListener(e -> updateFavouriteCoinsListener.onFailed(e.getLocalizedMessage(), v));
     }
 }

@@ -1,7 +1,9 @@
 package com.e.cryptocracy.utility;
 
-public interface UpdateFavouriteCoinsListener {
-    void onSuccess(Object obj);
+import android.view.View;
 
-    void onFailed(String msg);
+public interface UpdateFavouriteCoinsListener {
+    void onSuccess(Object obj, View view);
+
+    void onFailed(String msg, View view);
 }

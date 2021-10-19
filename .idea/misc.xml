@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/activity_app_home_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/fragment_change_currency.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/fragment_coin_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/fragment_filter_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/fragment_getting_started_screen1.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/fragment_search_coins.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/MyCryptocracy/app/src/main/res/layout/item_add_view.xml" value="0.25416666666666665" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />

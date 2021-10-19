@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
@@ -65,7 +66,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
         coinAdapter = new CoinAdapter(navController);
         binding.recCoinHome.setAdapter(coinAdapter);
 
-        new AdMob(requireActivity(), binding.adViewContainer);
+        // new AdMob(requireActivity(), binding.adViewContainer);
 
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
 
@@ -73,7 +74,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         binding.topAppBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.logout) {
-               AppUtils.logout(requireActivity());
+                AppUtils.logout(requireActivity());
             } else navController.navigate(item.getItemId());
             return true;
         });
@@ -88,13 +89,16 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         // appViewModal.setItemPagedList();
         appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> {
-
+            if (binding.swipeRefreshHome.isRefreshing())
+                binding.swipeRefreshHome.setRefreshing(false);
             coinAdapter.submitList(coinModals);
         });
 
 
         loadFavCoinsData();
 
+
+        binding.swipeRefreshHome.setOnRefreshListener(this::listenCoinData);
     }
 
     private void receiveBackStackData() {
@@ -143,8 +147,8 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
     public interface SortItemCLick {
         void onClick(String name);
-
     }
+
     private void loadFavCoinsData() {
         CollectionReference FavRef = AppUtils.getFireStoreReference().collection("users")
                 .document(AppUtils.getUid())
