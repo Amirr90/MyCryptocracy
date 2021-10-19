@@ -89,8 +89,6 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         // appViewModal.setItemPagedList();
         appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> {
-            if (binding.swipeRefreshHome.isRefreshing())
-                binding.swipeRefreshHome.setRefreshing(false);
             coinAdapter.submitList(coinModals);
         });
 
@@ -130,6 +128,9 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     }
 
     private void listenCoinData() {
+
+        if (binding.swipeRefreshHome.isRefreshing())
+            binding.swipeRefreshHome.setRefreshing(false);
         appViewModal.setItemPagedList();
     }
 

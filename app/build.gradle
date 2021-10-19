@@ -11,8 +11,8 @@ android {
         applicationId "com.e.cryptocracy"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 12
-        versionName "3.4"
+        versionCode 13
+        versionName "3.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
