@@ -58,7 +58,7 @@ public class TrendingCoinFragment extends DaggerFragment implements onAdapterCli
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-        //new AdMob(requireActivity(), binding.adViewContainer);
+        new AdMob(requireActivity(), binding.adViewContainer);
         trendingCoinsAdapter = new TrendingCoinsAdapter(this);
         binding.recTrendingCoins.setAdapter(trendingCoinsAdapter);
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);

@@ -11,7 +11,7 @@ import com.e.cryptocracy.modals.CoinCategoryModal;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.modals.SearchedCoinModal;
 
-@Database(entities = {CoinModal.class, CoinCategoryModal.class, SearchedCoinModal.class}, version = 1, exportSchema = false)
+@Database(entities = {CoinModal.class, CoinCategoryModal.class, SearchedCoinModal.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     static AppDatabase appDatabase;

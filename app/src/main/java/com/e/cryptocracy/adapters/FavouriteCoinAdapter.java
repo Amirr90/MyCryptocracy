@@ -113,7 +113,7 @@ public class FavouriteCoinAdapter extends ListAdapter<CoinModal, AppViewHolder> 
     @Override
     public int getItemViewType(int position) {
         if (position % 5 == 0)
-            return ITEM_ADD_VIEW;
+            return ITEM_COIN_VIEW;
         else return ITEM_COIN_VIEW;
 
     }

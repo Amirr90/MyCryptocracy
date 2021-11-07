@@ -64,7 +64,7 @@ public class FavouriteFragment extends DaggerFragment {
         binding.recCoinFavHome.setItemAnimator(new DefaultItemAnimator());
         binding.recCoinFavHome.setAdapter(adapter);
 
-        //new AdMob(requireActivity(), binding.adViewContainer);
+        new AdMob(requireActivity(), binding.adViewContainer);
 
 
         appViewModal.fetchFavCoins().observe(getViewLifecycleOwner(), coinModals -> {
@@ -87,12 +87,14 @@ public class FavouriteFragment extends DaggerFragment {
 
 
     private void loadFavCoinsData() {
+        AppUtils.showRequestDialog(requireActivity());
         CollectionReference FavRef = AppUtils.getFireStoreReference().collection("users")
                 .document(AppUtils.getUid())
                 .collection(AppConstant.FAVOURITE);
 
 
         FavRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            AppUtils.hideDialog();
             if (binding.swiperefreshFav.isRefreshing()) {
                 binding.swiperefreshFav.setRefreshing(false);
                 Toast.makeText(App.context, "Refreshed", Toast.LENGTH_SHORT).show();
@@ -110,7 +112,7 @@ public class FavouriteFragment extends DaggerFragment {
                 Gson gson = new Gson();
                 String list = gson.toJson(favList);
                 AppUtils.setString(AppConstant.FAVOURITE_COINS, list, requireActivity());
-                Log.d(TAG, "onSuccess: " + builder.toString());
+                Log.d(TAG, "onSuccess: " + builder);
                 if (!builder.toString().isEmpty()) {
                     appViewModal.setFavIds(builder.toString());
                 } else {
@@ -123,6 +125,7 @@ public class FavouriteFragment extends DaggerFragment {
                 binding.noCoinsLay.setVisibility(View.GONE);
                 binding.progressBar10.setVisibility(View.GONE);
             }
+
 
 
         });

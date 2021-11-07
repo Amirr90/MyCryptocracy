@@ -21,22 +21,24 @@ import javax.inject.Inject;
 
 public class AppViewModal extends ViewModel {
     private static final String TAG = "AppViewModal";
-    public MutableLiveData<Boolean> loadingState = new MutableLiveData<>();
 
     @Inject
     ApiRepository apiRepository;
     public LiveData<PagedList<CoinModal>> itemPagedList;
     LiveData<PageKeyedDataSource<Integer, CoinModal>> liveDataSource;
+    MutableLiveData<Boolean> _loading = new MutableLiveData();
 
-    LiveData<Boolean> isLoading;
+    LiveData<Boolean> loadAdd;
 
+    public LiveData<Boolean> getLoadAdd() {
+        return loadAdd;
+    }
 
     @Inject
     public AppViewModal(ApiRepository apiRepository) {
         this.apiRepository = apiRepository;
         ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
         liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
-        isLoading = itemDataSourceFactory.getLoadingState();
 
         PagedList.Config config =
                 (new PagedList.Config.Builder())
@@ -47,10 +49,6 @@ public class AppViewModal extends ViewModel {
         itemPagedList = (new LivePagedListBuilder(itemDataSourceFactory, config)).build();
     }
 
-
-    public void setLoadingState(boolean loadingState) {
-        this.loadingState.setValue(loadingState);
-    }
 
     public void setItemPagedList() {
 
@@ -83,9 +81,6 @@ public class AppViewModal extends ViewModel {
         return apiRepository.getExchangeRates();
     }
 
-    public LiveData<PagedList<CoinModal>> getFavCoins() {
-        return apiRepository.pagedCoinList;
-    }
 
     public LiveData<List<SearchedCoinModal>> getAllCoins() {
         return apiRepository.getAllCoins();
@@ -111,10 +106,6 @@ public class AppViewModal extends ViewModel {
         return apiRepository.coinInvestorData(coinId);
     }
 
-    public void listenPaginatedCoins(String page) {
-        apiRepository.listenPaginatedCoins(page);
-    }
-
     public LiveData<List<CoinModal>> fetchFavCoins() {
         return apiRepository.getFavCoinsList();
     }
@@ -124,7 +115,8 @@ public class AppViewModal extends ViewModel {
     }
 
 
-    public LiveData<Boolean> loadingObserver() {
-        return apiRepository.loadingObserver();
+    public void loadAdd(Boolean aBoolean) {
+        _loading.setValue(aBoolean);
+        loadAdd = _loading;
     }
 }

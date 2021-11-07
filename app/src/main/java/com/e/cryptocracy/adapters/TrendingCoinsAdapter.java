@@ -83,7 +83,7 @@ public class TrendingCoinsAdapter extends ListAdapter<TrendingCoinResponse.Trend
     @Override
     public int getItemViewType(int position) {
         if (position % 5 == 0)
-            return ITEM_ADD_VIEW;
+            return ITEM_COIN_VIEW;
         else return ITEM_COIN_VIEW;
 
     }

@@ -1,6 +1,7 @@
 package com.e.cryptocracy.viewModal;
 
-import androidx.lifecycle.LiveData;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
@@ -9,9 +10,8 @@ import com.e.cryptocracy.modals.CoinModal;
 
 public class ItemDataSourceFactory extends DataSource.Factory {
 
+    private static final String TAG = "ItemDataSourceFactory";
     private final MutableLiveData<PageKeyedDataSource<Integer, CoinModal>> itemLiveDataSource = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loadingState = new MutableLiveData<>();
-
 
     @Override
     public DataSource create() {
@@ -24,7 +24,4 @@ public class ItemDataSourceFactory extends DataSource.Factory {
         return itemLiveDataSource;
     }
 
-    public LiveData<Boolean> getLoadingState() {
-        return loadingState;
-    }
 }

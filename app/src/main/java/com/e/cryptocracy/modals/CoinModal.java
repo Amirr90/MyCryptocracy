@@ -3,9 +3,11 @@ package com.e.cryptocracy.modals;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.ads.AdView;
+
 import org.jetbrains.annotations.NotNull;
 
-@Entity(tableName = "coin_table")
+@Entity(tableName = "coin_table" )
 public class CoinModal {
     @PrimaryKey
     @NotNull
@@ -21,15 +23,6 @@ public class CoinModal {
     private long market_cap_rank;
     private double high_24h;
     private double low_24h;
-    Boolean addView;
-
-    public Boolean getAddView() {
-        return addView;
-    }
-
-    public void setAddView(Boolean addView) {
-        this.addView = addView;
-    }
 
     @NotNull
     public String getId() {

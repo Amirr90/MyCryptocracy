@@ -10,6 +10,8 @@ import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -19,6 +21,7 @@ import com.e.cryptocracy.R;
 import com.e.cryptocracy.addservices.AdMob;
 import com.e.cryptocracy.databinding.CoinViewBinding;
 import com.e.cryptocracy.databinding.ItemAddViewBinding;
+import com.e.cryptocracy.interfaces.LoadAddInterface;
 import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
@@ -42,12 +45,13 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
     NavController navController;
     private static final String TAG = "CoinAdapter";
     List<String> favCoins = new ArrayList<>();
-
+    LoadAddInterface loadAddInterface;
 
     @Inject
-    public CoinAdapter(NavController navController) {
+    public CoinAdapter(NavController navController, LoadAddInterface loadAddInterface) {
         super(itemCallback);
         this.navController = navController;
+        this.loadAddInterface = loadAddInterface;
         String fav = AppUtils.getString(AppConstant.FAVOURITE_COINS, App.context);
         if (!fav.isEmpty()) {
             Gson gson = new Gson();
@@ -71,6 +75,7 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
             ItemAddViewBinding itemAddViewBinding = ItemAddViewBinding.inflate(layoutInflater, parent, false);
             return new AppViewHolder(itemAddViewBinding);
         }
+
 
     }
 
@@ -105,6 +110,9 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
             setupAdd(holder);
         }
 
+        if (position % 10 == 0) {
+            loadAddInterface.loadAdd();
+        }
 
     }
 
@@ -145,7 +153,7 @@ public class CoinAdapter extends PagedListAdapter<CoinModal, AppViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if (position % 13 == 0)
-            return ITEM_ADD_VIEW;
+            return ITEM_COIN_VIEW;
         else return ITEM_COIN_VIEW;
 
     }

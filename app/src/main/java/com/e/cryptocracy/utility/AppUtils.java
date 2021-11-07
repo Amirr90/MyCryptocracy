@@ -301,7 +301,7 @@ public class AppUtils {
     }
 
     public static void setString(String key, String value, Activity activity) {
-        SharedPreferences sharedpreferences = activity.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = App.context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(key, value);
         editor.commit();

@@ -1,31 +1,39 @@
 package com.e.cryptocracy.views.fragments.homeScreenFragments;
 
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.e.cryptocracy.R;
 import com.e.cryptocracy.adapters.CoinAdapter;
 import com.e.cryptocracy.adapters.GraphFilterKeysAdapter;
 import com.e.cryptocracy.addservices.AdMob;
+import com.e.cryptocracy.addservices.Ads;
 import com.e.cryptocracy.apiInterface.onAdapterClick;
 import com.e.cryptocracy.databinding.FragmentCoinListBinding;
+import com.e.cryptocracy.interfaces.LoadAddInterface;
+import com.e.cryptocracy.modals.CoinModal;
 import com.e.cryptocracy.utility.App;
 import com.e.cryptocracy.utility.AppConstant;
 import com.e.cryptocracy.utility.AppUtils;
 import com.e.cryptocracy.viewModal.AppViewModal;
 import com.e.cryptocracy.viewModal.ViewModelProviderFactory;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.gson.Gson;
 
@@ -37,8 +45,9 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 
 
-public class CoinListFragment extends DaggerFragment implements onAdapterClick {
+public class CoinListFragment extends DaggerFragment implements onAdapterClick, LoadAddInterface {
     private static final String TAG = "CoinListFragment";
+    private final int BANNER_ADD_GAP = 10;
 
 
     FragmentCoinListBinding binding;
@@ -47,6 +56,7 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
     @Inject
     ViewModelProviderFactory providerFactory;
     CoinAdapter coinAdapter;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -63,10 +73,10 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
 
         navController = Navigation.findNavController(view);
 
-        coinAdapter = new CoinAdapter(navController);
+        coinAdapter = new CoinAdapter(navController, this);
         binding.recCoinHome.setAdapter(coinAdapter);
 
-        // new AdMob(requireActivity(), binding.adViewContainer);
+        new AdMob(requireActivity(), binding.adViewContainer);
 
         appViewModal = ViewModelProviders.of(this, providerFactory).get(AppViewModal.class);
 
@@ -87,16 +97,25 @@ public class CoinListFragment extends DaggerFragment implements onAdapterClick {
                 navController.navigate(R.id.action_coinListFragment_to_filterListFragment, bundle);
         });
 
-        // appViewModal.setItemPagedList();
+        AppUtils.showRequestDialog(requireActivity());
         appViewModal.itemPagedList.observe(getViewLifecycleOwner(), coinModals -> {
+            AppUtils.hideDialog();
             coinAdapter.submitList(coinModals);
         });
-
-
         loadFavCoinsData();
-
-
         binding.swipeRefreshHome.setOnRefreshListener(this::listenCoinData);
+
+       /* loadAdd();
+        appViewModal.getLoadAdd().observe(getViewLifecycleOwner(), loadAdd -> {
+            Log.d("LoadAdd", ": " + loadAdd);
+            new AdMob(requireActivity(), binding.adViewContainer);
+
+        });*/
+    }
+
+    @Override
+    public void loadAdd() {
+        // appViewModal.loadAdd(true);
     }
 
     private void receiveBackStackData() {

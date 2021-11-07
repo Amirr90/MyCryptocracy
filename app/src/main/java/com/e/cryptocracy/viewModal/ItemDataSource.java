@@ -3,6 +3,7 @@ package com.e.cryptocracy.viewModal;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
 import com.e.cryptocracy.addservices.AdMob;
@@ -36,6 +37,11 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
     String currency = AppUtils.getString(AppConstant.CURRENCY, App.context);
     String category = AppUtils.getString(AppConstant.CATEGORY, App.context);
     String orderBy = AppUtils.getString(AppConstant.ORDER_BY, App.context);
+    MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
 
     public ItemDataSource() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -61,6 +67,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
 
 
         Log.d(TAG, "loadInitial: " + params);
+        isLoading.postValue(true);
         api.getAllLatestCoins(String.valueOf(FIRST_PAGE), currency,
                 category.isEmpty() ? null : category,
                 orderBy.isEmpty() ? "market_cap_desc" : orderBy)
@@ -68,6 +75,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(false);
                         if (response.code() == 200 && response.body() != null) {
                             callback.onResult(response.body(), null, FIRST_PAGE + 1);
                         }
@@ -76,6 +84,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(false);
+
                         Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
                     }
                 });
@@ -93,6 +103,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(true);
+
                         if (response.code() == 200 && response.body() != null) {
                             Integer key = (params.key > 1) ? params.key - 1 : null;
                             callback.onResult(response.body(), key);
@@ -102,6 +114,7 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(false);
 
                         Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
                     }
@@ -119,6 +132,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onResponse(@NotNull Call<List<CoinModal>> call, @NotNull Response<List<CoinModal>> response) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(true);
+
                         Integer key = response.body() != null ? params.key + 1 : null;
                         if (response.code() == 200 && response.body() != null) {
                             callback.onResult(response.body(), key);
@@ -128,6 +143,8 @@ public class ItemDataSource extends PageKeyedDataSource<Integer, CoinModal> {
                     @Override
                     public void onFailure(@NotNull Call<List<CoinModal>> call, @NotNull Throwable t) {
                         AppUtils.hideDialog();
+                        isLoading.postValue(false);
+
                         Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
                     }
                 });

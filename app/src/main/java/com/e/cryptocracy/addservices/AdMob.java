@@ -26,6 +26,16 @@ public class AdMob {
         initAds();
     }
 
+    public AdMob(Activity activity) {
+        this.activity = activity;
+
+        MobileAds.initialize(activity, initializationStatus -> {
+            Log.d(TAG, "onInitializationComplete: ");
+        });
+
+        adView = new AdView(activity);
+        adView.setAdUnitId(Ads.BANNER_ADD_ID);
+    }
 
     private void initAds() {
         MobileAds.initialize(activity, initializationStatus -> {
@@ -72,5 +82,9 @@ public class AdMob {
 
         // Step 3 - Get adaptive ad size and return for setting on the ad view.
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth);
+    }
+
+    public AdView getAdView() {
+    return adView;
     }
 }
